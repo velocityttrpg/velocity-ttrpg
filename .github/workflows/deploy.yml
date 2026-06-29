@@ -1,0 +1,62 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.md'
+      - 'Website/build.js'
+      - 'Website/style.css'
+      - 'Website/search.js'
+      - 'Website/Site/**'
+      - 'Website/index.html'
+      - 'Website/legal.html'
+      - 'Website/character-sheet.html'
+      - 'Website/character-sheet-reference.html'
+      - 'Website/skill-trees.html'
+      - 'Website/d20.html'
+      - 'Website/favicon*'
+      - 'Website/apple-touch-icon.png'
+  workflow_dispatch:  # allow manual trigger from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; cancel any in-progress run when a new push arrives.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build site
+        working-directory: Website
+        run: node build.js
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: Website
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

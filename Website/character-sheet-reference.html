@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velocity — Reference Character Sheet</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root {
+    --bg-deep: #060912;
+    --bg-mid: #0c1326;
+    --accent: #6fb7ff;
+    --accent-2: #ffd76f;
+    --card-bg: rgba(16, 22, 40, 0.75);
+    --card-border: rgba(140, 180, 255, 0.25);
+    --text-main: #eaf2ff;
+    --text-dim: #93a3c0;
+    --input-bg: rgba(255,255,255,0.05);
+    --input-border: rgba(140, 180, 255, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--bg-mid) 0%, var(--bg-deep) 70%);
+    color: var(--text-main);
+    font-family: "Segoe UI", Trebuchet MS, sans-serif;
+    min-height: 100%;
+  }
+
+  #sheet {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+
+  header.title-block {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+
+  header.title-block h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 14px rgba(111, 183, 255, 0.6);
+  }
+
+  header.title-block p {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .topbar-back {
+    display: block;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-bottom: 16px;
+  }
+  .topbar-back:hover { color: var(--text-main); }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(4px);
+  }
+
+  .card h2 {
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 6px;
+  }
+
+  .card h2.gold { color: var(--accent-2); }
+
+  .grid { display: grid; gap: 14px; }
+  .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid.cols-9 { grid-template-columns: repeat(5, 1fr) auto repeat(3, 1fr); }
+
+  @media (max-width: 800px) {
+    .grid.cols-3, .grid.cols-4, .grid.cols-5 { grid-template-columns: repeat(2, 1fr); }
+    .grid.cols-9 { grid-template-columns: repeat(5, 1fr); }
+    .grid.cols-9 .attr-divider { display: none; }
+  }
+
+  .field { display: flex; flex-direction: column; gap: 4px; }
+
+  .field label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .field input, .field textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    color: var(--text-main);
+    padding: 6px 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+
+  .field textarea { resize: vertical; min-height: 50px; }
+
+  .attr-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 10px 6px;
+    background: var(--input-bg);
+  }
+
+  .attr-box .attr-name {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  .attr-box input {
+    width: 100%;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    color: var(--accent);
+    padding: 4px;
+  }
+
+  .attr-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--card-border);
+  }
+
+  .skills-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  @media (max-width: 800px) {
+    .skills-wrap { grid-template-columns: 1fr; }
+  }
+
+  .skill-group {
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+
+  .skill-group h3 {
+    margin: 0 0 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-2);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 8px;
+  }
+
+  .skill-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.85rem;
+  }
+  .skill-line:last-child { border-bottom: none; }
+
+  .skill-line .skill-name {
+    color: var(--text-main);
+    flex: 1 1 auto;
+  }
+
+  .skill-line .tiers {
+    display: flex;
+    gap: 6px;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  .tier-check {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .tier-check span {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+  }
+  .tier-check input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--accent);
+  }
+
+  table.inv {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  table.inv th, table.inv td {
+    border: 1px solid var(--card-border);
+    padding: 6px 8px;
+    text-align: left;
+  }
+  table.inv th {
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  table.inv td input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-family: inherit;
+  }
+
+  .print-btn {
+    display: block;
+    margin: 0 auto 20px;
+    padding: 8px 18px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .print-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Page breaks only apply when printing */
+  .page-break {
+    break-before: auto;
+  }
+  @media print {
+    .page-break {
+      break-before: page;
+      page-break-before: always;
+    }
+  }
+
+  @media print {
+    html, body { background: #ffffff; color: #111; }
+    #sheet { max-width: 100%; padding: 10px; }
+    header.title-block h1 { color: #111; text-shadow: none; }
+    header.title-block p { color: #444; }
+    .topbar-back, .print-btn { display: none; }
+    .card {
+      background: #ffffff;
+      border: 1px solid #888;
+      backdrop-filter: none;
+      box-shadow: none;
+      page-break-inside: avoid;
+    }
+    .card h2, .card h2.gold { color: #111; border-bottom: 1px solid #888; }
+    .field label { color: #444; }
+    .field input, .field textarea {
+      background: #fff; border: 1px solid #888; color: #111;
+    }
+    .attr-box { background: #fff; border: 1px solid #888; }
+    .attr-box input { color: #111; border: 1px solid #888; background: #fff; }
+    .attr-box .attr-name { color: #444; }
+    .attr-divider { background: #888; }
+    .skills-wrap { grid-template-columns: 1fr 1fr; }
+    .skill-group { border: 1px solid #888; page-break-inside: avoid; }
+    .skill-group h3 { color: #111; border-bottom: 1px solid #888; }
+    .skill-line { border-bottom: 1px solid #ccc; }
+    .skill-line .skill-name { color: #111; }
+    .tier-check span { color: #444; }
+    table.inv th, table.inv td { border: 1px solid #888; color: #111; }
+  }
+</style>
+</head>
+<body>
+
+<div id="sheet">
+  <a class="topbar-back" href="index.html">&larr; Library</a>
+
+  <header class="title-block">
+    <h1>Velocity</h1>
+    <p>Character Sheet — Reference</p>
+  </header>
+
+  <button class="print-btn" onclick="window.print()">Print this sheet</button>
+
+  <!-- Character -->
+  <div class="card">
+    <h2>Character</h2>
+    <div class="grid cols-3">
+      <div class="field"><label>Name</label><input type="text"></div>
+      <div class="field"><label>Lineage</label><input type="text"></div>
+      <div class="field"><label>Player</label><input type="text"></div>
+    </div>
+  </div>
+
+  <!-- Attributes -->
+  <div class="card">
+    <h2>Attributes</h2>
+    <div class="grid cols-9">
+      <div class="attr-box">
+        <div class="attr-name">Strength</div>
+        <input type="text">
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Reflex</div>
+        <input type="text">
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Willpower</div>
+        <input type="text">
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Fortitude</div>
+        <input type="text">
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Social</div>
+        <input type="text">
+      </div>
+      <div class="attr-divider"></div>
+      <div class="attr-box">
+        <div class="attr-name">Health</div>
+        <input type="text">
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Vitality</div>
+        <input type="text">
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Dying Threshold</div>
+        <input type="text">
+      </div>
+    </div>
+  </div>
+
+  <!-- Weapons & Damage -->
+  <div class="card">
+    <h2>Weapons &amp; Damage</h2>
+    <div class="grid cols-2">
+      <div class="field"><label>Equipped Melee Weapon</label><input type="text"></div>
+      <div class="field"><label>Equipped Ranged Weapon</label><input type="text"></div>
+    </div>
+    <div class="grid cols-2" style="margin-top:10px;">
+      <div class="field"><label>Melee Damage</label><input type="text"></div>
+      <div class="field"><label>Ranged Damage</label><input type="text"></div>
+    </div>
+    <div class="grid cols-2" style="margin-top:10px;">
+      <div class="field"><label>Magic Spell Base Damage Die</label><input type="text"></div>
+      <div class="field"><label>Magic Damage</label><input type="text"></div>
+    </div>
+  </div>
+
+  <!-- Armor & Mitigation -->
+  <div class="card">
+    <h2>Armor &amp; Mitigation</h2>
+    <div class="grid cols-2">
+      <div class="field"><label>Equipped Armor</label><input type="text"></div>
+      <div class="field"><label>Damage Mitigation</label><input type="text"></div>
+    </div>
+  </div>
+
+  <!-- Bottomless Coinpurse -->
+  <div class="card">
+    <h2>Bottomless Coinpurse</h2>
+    <div class="grid cols-4">
+      <div class="field"><label>Copper (cp)</label><input type="text"></div>
+      <div class="field"><label>Silver (sp)</label><input type="text"></div>
+      <div class="field"><label>Gold (gp)</label><input type="text"></div>
+      <div class="field"><label>Platinum (pp)</label><input type="text"></div>
+    </div>
+    <div class="field" style="margin-top:10px;">
+      <label>Gems &amp; Jewels</label>
+      <textarea></textarea>
+    </div>
+  </div>
+
+  <!-- Inventory -->
+  <div class="card">
+    <h2>Inventory</h2>
+    <div class="grid cols-4">
+      <div class="field"><label>Base Slots</label><input type="text"></div>
+      <div class="field"><label>Bonus Slots (3 &times; Strength)</label><input type="text"></div>
+      <div class="field"><label>Total Capacity</label><input type="text"></div>
+      <div class="field"><label>Remaining Capacity</label><input type="text"></div>
+    </div>
+    <table class="inv" style="margin-top:10px;">
+      <thead>
+        <tr><th style="width:8%">Equipped</th><th style="width:30%">Item</th><th style="width:11%">Size</th><th style="width:11%">Qty</th><th style="width:11%">Slots Used</th><th style="width:14%">Value (gp)</th><th style="width:14%">Total (gp)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Skill Points (new page) -->
+  <div class="card page-break">
+    <h2>Skill Points</h2>
+    <div class="grid cols-3">
+      <div class="field"><label>Unspent SP</label><input type="text"></div>
+      <div class="field"><label>Spent SP</label><input type="text"></div>
+      <div class="field"><label>Human Potential (+2 SP, Human only)</label><input type="text"></div>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="card">
+    <h2 class="gold">Skills</h2>
+
+    <div class="skills-wrap">
+
+    <div class="skill-group">
+      <h3>Combat</h3>
+      <div class="skill-line"><span class="skill-name">Melee Attack</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Ranged Attack</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Magic Attack</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Defense</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Movement</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Armor</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Weapon &mdash; Melee</h3>
+      <div class="skill-line"><span class="skill-name">Simple Melee</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Martial Melee</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Exotic Melee</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+      </div></div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Weapon &mdash; Ranged</h3>
+      <div class="skill-line"><span class="skill-name">Simple Ranged</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Martial Ranged</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Exotic Ranged</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+      </div></div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Influence</h3>
+      <div class="skill-line"><span class="skill-name">Influence (trunk)</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Persuasion</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Intimidation</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Negotiation</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Survival</h3>
+      <div class="skill-line"><span class="skill-name">Athletics</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Medicine</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Stealth</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Tracking</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Wilderness</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Investigation</h3>
+      <div class="skill-line"><span class="skill-name">Investigation (trunk)</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Forensics</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Research</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Supernatural Detection</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Situational Awareness</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Attributes</h3>
+      <div class="skill-line"><span class="skill-name">Dominance</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Empathy</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Fortitude</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Reflex</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Strength</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Vitality</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+      <div class="skill-line"><span class="skill-name">Willpower</span><div class="tiers">
+        <label class="tier-check"><span>I</span><input type="checkbox"></label>
+        <label class="tier-check"><span>II</span><input type="checkbox"></label>
+        <label class="tier-check"><span>III</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IV</span><input type="checkbox"></label>
+        <label class="tier-check"><span>V</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VI</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>VIII</span><input type="checkbox"></label>
+        <label class="tier-check"><span>IX</span><input type="checkbox"></label>
+        <label class="tier-check"><span>X</span><input type="checkbox"></label>
+      </div></div>
+    </div>
+
+    </div>
+  </div>
+
+  <!-- Lineage & Notes (new page) -->
+  <div class="card page-break">
+    <h2>Lineage &amp; Notes</h2>
+    <div class="grid cols-2">
+      <div class="field"><label>Lineage Origin / How Unlocked (if applicable)</label><textarea></textarea></div>
+      <div class="field"><label>Lineage Traits</label><textarea></textarea></div>
+    </div>
+    <div class="grid cols-2" style="margin-top:10px;">
+      <div class="field"><label>Weaknesses</label><textarea></textarea></div>
+      <div class="field"><label>Background, Personality, Goals</label><textarea></textarea></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

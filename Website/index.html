@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velocity TTRPG</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Landing-only overrides */
+    body { padding-top: var(--dev-banner-h); }
+
+    /* Hide the topbar on landing — hero serves as the header */
+    #topbar { display: none; }
+
+    /* Landing search results drop below the search bar */
+    #landing-results {
+      max-width: 900px;
+      margin: 10px auto 0;
+    }
+    #landing-results:empty { display: none; }
+  </style>
+</head>
+<body>
+
+<div id="dev-banner">
+  <svg class="dev-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path>
+    <line x1="12" y1="9" x2="12" y2="13"></line>
+    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+  </svg>
+  <span>Velocity is in active development — rules are still changing. <a href="playtesting.html">Help playtest it and leave feedback &rarr;</a></span>
+</div>
+
+<div id="landing">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <h1>Velocity</h1>
+    <p>One resolution mechanic. No classes, no levels, no fixed archetypes. A tabletop RPG engine built for fast, frictionless story-driven play.</p>
+    <p class="hero-link"><a href="about.html">What makes Velocity different &rarr;</a></p>
+
+    <div class="hero-search">
+      <input type="search" id="search-input"
+        placeholder='Search all books, e.g. "opposition check AND strength"…'
+        autocomplete="off">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
+    <div id="landing-results" hidden></div>
+  </section>
+
+  <!-- ── Rulebooks ────────────────────────────────────────────────────────── -->
+  <p class="section-label">Rulebooks</p>
+  <div class="book-grid">
+
+    <a class="book-card" href="reader/core-rules/introduction.html"
+      style="border-left-color: #6fb7ff">
+      <span class="book-title">Core Rules</span>
+      <span class="book-desc">The complete mechanics — Opposition Checks, attributes, skills, lineages, combat, equipment, and more.</span>
+      <span class="book-open">Open book →</span>
+    </a>
+
+    <a class="book-card" href="reader/glossary/glossary.html"
+      style="border-left-color: #ffd76f">
+      <span class="book-title">Glossary</span>
+      <span class="book-desc">Every system term defined in one place.</span>
+      <span class="book-open">Open book →</span>
+    </a>
+
+  </div>
+
+  <footer class="site-footer">
+    <a href="about.html">What Makes Velocity Different</a>
+    <span class="footer-sep">·</span>
+    <a href="playtesting.html">Playtesting &amp; Feedback</a>
+    <span class="footer-sep">·</span>
+    <a href="legal.html">Legal &amp; Attribution</a>
+  </footer>
+
+</div><!-- /#landing -->
+
+<script src="search-index.js"></script>
+<script src="search.js"></script>
+<script>
+  VelocitySearch.init(
+    document.getElementById('search-input'),
+    document.getElementById('landing-results'),
+    { indexUrl: 'search-index.json' }
+  );
+</script>
+</body>
+</html>

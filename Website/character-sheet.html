@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velocity — Character Sheet</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root {
+    --bg-deep: #060912;
+    --bg-mid: #0c1326;
+    --accent: #6fb7ff;
+    --accent-2: #ffd76f;
+    --card-bg: rgba(16, 22, 40, 0.75);
+    --card-border: rgba(140, 180, 255, 0.25);
+    --text-main: #eaf2ff;
+    --text-dim: #93a3c0;
+    --input-bg: rgba(255,255,255,0.05);
+    --input-border: rgba(140, 180, 255, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--bg-mid) 0%, var(--bg-deep) 70%);
+    color: var(--text-main);
+    font-family: "Segoe UI", Trebuchet MS, sans-serif;
+    min-height: 100%;
+  }
+
+  #sheet {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+
+  header.title-block {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+
+  header.title-block h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 14px rgba(111, 183, 255, 0.6);
+  }
+
+  header.title-block p {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(4px);
+  }
+
+  .card h2 {
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 6px;
+  }
+
+  .card h2.gold { color: var(--accent-2); }
+
+  .grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+  .grid.cols-9 { grid-template-columns: repeat(5, 1fr) auto repeat(3, 1fr); }
+
+  @media (max-width: 800px) {
+    .grid.cols-2, .grid.cols-3, .grid.cols-4, .grid.cols-6 { grid-template-columns: repeat(2, 1fr); }
+    .grid.cols-9 { grid-template-columns: repeat(5, 1fr); }
+    .grid.cols-9 .attr-divider { display: none; }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .field label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .field input, .field textarea, .field select {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    color: var(--text-main);
+    padding: 6px 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+
+  .field textarea { resize: vertical; min-height: 60px; }
+
+  .field select option {
+    background: var(--bg-mid);
+    color: var(--text-main);
+  }
+
+  .attr-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 10px 6px;
+    background: var(--input-bg);
+  }
+
+  .attr-box .attr-name {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  .attr-box input {
+    width: 100%;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+  }
+
+  .attr-box .attr-desc {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .attr-box .attr-effects {
+    font-size: 0.68rem;
+    color: var(--accent-2);
+    text-align: center;
+    line-height: 1.4;
+    margin-top: 4px;
+  }
+
+  .attr-box .attr-effects:empty {
+    display: none;
+  }
+
+  .attr-box .attr-damage {
+    font-size: 0.68rem;
+    color: var(--accent);
+    text-align: center;
+    white-space: pre-line;
+    line-height: 1.4;
+    margin-top: 4px;
+  }
+
+  .attr-box .attr-damage:empty {
+    display: none;
+  }
+
+  .attr-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--card-border);
+  }
+
+  .note {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    line-height: 1.4;
+    margin-top: 6px;
+  }
+
+  /* Skills */
+  .skills-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 800px) {
+    .skills-wrap { grid-template-columns: 1fr; }
+  }
+
+  .skill-group {
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+
+  .skill-group h3 {
+    margin: 0 0 6px;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.82rem;
+    gap: 8px;
+  }
+
+  .skill-row:last-child { border-bottom: none; }
+
+  .skill-name { flex: 1 1 auto; }
+
+  .skill-boxes {
+    display: flex;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+
+  .chk {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    gap: 2px;
+  }
+
+  .chk input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .chk input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+
+  .chk:has(input[type="checkbox"]:disabled) {
+    opacity: 0.55;
+  }
+
+  .human-potential-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  .human-potential-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent-2);
+    cursor: pointer;
+  }
+
+  /* Inventory table */
+  table.inv {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  table.inv th, table.inv td {
+    border: 1px solid var(--card-border);
+    padding: 5px 8px;
+    text-align: left;
+  }
+
+  table.inv th {
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  table.inv input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-family: inherit;
+  }
+
+  /* SP tally */
+  #sp-tally {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  #sp-tally span {
+    color: var(--accent-2);
+    font-weight: 700;
+  }
+
+  /* Print */
+  @media print {
+    html, body {
+      background: #ffffff;
+      color: #111;
+    }
+    #sheet { max-width: 100%; padding: 10px; }
+    header.title-block h1 { color: #111; text-shadow: none; }
+    header.title-block p { color: #444; }
+    .card {
+      background: #ffffff;
+      border: 1px solid #888;
+      backdrop-filter: none;
+      box-shadow: none;
+      page-break-inside: avoid;
+    }
+    .card h2, .card h2.gold { color: #111; border-bottom: 1px solid #888; }
+    .field label { color: #444; }
+    .field input, .field textarea, .field select {
+      background: #fff; border: 1px solid #888; color: #111;
+    }
+    .attr-box { background: #fff; border: 1px solid #888; }
+    .attr-box input { color: #111; }
+    .attr-box .attr-name, .attr-box .attr-desc { color: #444; }
+    .attr-box .attr-effects { color: #555; }
+    .note { color: #555; }
+    .skill-group { border: 1px solid #888; }
+    .skill-group h3 { color: #111; }
+    .skill-row { border-bottom: 1px solid #ccc; }
+    .chk { color: #444; }
+    .human-potential-row { color: #444; }
+    table.inv th, table.inv td { border: 1px solid #888; }
+    table.inv th { color: #444; }
+    table.inv input { color: #111; }
+    #sp-tally span { color: #111; }
+    .no-print { display: none; }
+  }
+
+  .print-btn {
+    display: block;
+    margin: 0 auto 18px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--accent);
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .print-btn:hover { background: rgba(111,183,255,0.12); }
+
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .btn-row .print-btn { margin: 0; }
+</style>
+</head>
+<body>
+<div id="sheet">
+
+  <header class="title-block">
+    <h1>Velocity</h1>
+    <p>Character Sheet &middot; Veilborn / Anar</p>
+  </header>
+
+  <div class="btn-row no-print">
+    <button class="print-btn" onclick="window.print()">Print Sheet</button>
+    <button class="print-btn" onclick="exportCharacter()">Export JSON</button>
+    <button class="print-btn" onclick="document.getElementById('import-file').click()">Import JSON</button>
+    <input type="file" id="import-file" accept="application/json" style="display:none">
+  </div>
+
+  <!-- Archetype -->
+  <div class="card">
+    <h2>Archetype</h2>
+    <div class="grid cols-3">
+      <div class="field">
+        <label>Starter Archetype</label>
+        <select id="archetype-select">
+          <option value="">— None —</option>
+          <option value="Brute">Brute</option>
+          <option value="Cleric">Cleric</option>
+          <option value="Diplomat">Diplomat</option>
+          <option value="Fighter">Fighter</option>
+          <option value="Healer">Healer</option>
+          <option value="Herbalist">Herbalist</option>
+          <option value="Infiltrator">Infiltrator</option>
+          <option value="Investigator">Investigator</option>
+          <option value="Knight">Knight</option>
+          <option value="Mage">Mage</option>
+          <option value="Merchant">Merchant</option>
+          <option value="Noble">Noble</option>
+          <option value="Occultist">Occultist</option>
+          <option value="Performer">Performer</option>
+          <option value="Ranger">Ranger</option>
+          <option value="Thief">Thief</option>
+        </select>
+      </div>
+      <div class="field">
+        <label style="visibility: hidden;">Reset</label>
+        <button class="print-btn no-print" id="reset-character" type="button" style="margin: 0; width: 100%; padding: 6px 8px; font-size: 0.95rem;">Reset Character</button>
+      </div>
+    </div>
+    <p class="note">Archetypes are starting templates only — Velocity has no classes, and every skill point spent here can be refunded and reallocated freely as the character grows. Selecting an archetype spends Skill Points on a suggested starting build and adds matching starter gear to the Inventory; switching or clearing the archetype refunds those skills and removes that gear. "Reset Character" clears the entire sheet back to its default blank state.</p>
+  </div>
+
+  <!-- Identity -->
+  <div class="card">
+    <h2>Character</h2>
+    <div class="grid cols-3">
+      <div class="field"><label>Name</label><input type="text"></div>
+      <div class="field"><label>Player</label><input type="text"></div>
+      <div class="field"><label>Lineage</label><input type="text"></div>
+    </div>
+  </div>
+
+  <!-- Attributes -->
+  <div class="card">
+    <h2>Attributes</h2>
+    <div class="grid cols-9">
+      <div class="attr-box">
+        <div class="attr-name">Strength</div>
+        <input type="number" min="0" value="0" id="strength-input" data-base="0">
+        <div class="attr-desc">Melee/ranged attack &amp; damage, inventory slots</div>
+        <div class="attr-effects" id="strength-effects"></div>
+        <div class="attr-damage" id="strength-damage"></div>
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Reflex</div>
+        <input type="number" min="0" value="0" id="reflex-input" data-base="0">
+        <div class="attr-desc">Dodge, Evasion, Parry, Block bonus</div>
+        <div class="attr-effects" id="reflex-effects"></div>
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Willpower</div>
+        <input type="number" min="0" value="0" id="willpower-input" data-base="0">
+        <div class="attr-desc">Magic attack &amp; spell damage, Concentration, Consciousness Checks</div>
+        <div class="attr-effects" id="willpower-effects"></div>
+        <div class="attr-damage" id="willpower-damage"></div>
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Fortitude</div>
+        <input type="number" min="0" value="0" id="fortitude-input" data-base="0">
+        <div class="attr-desc">Resist poison &amp; disease, Consciousness Checks</div>
+        <div class="attr-effects" id="fortitude-effects"></div>
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Social</div>
+        <input type="number" min="0" value="0" id="social-input" data-base="0">
+        <div class="attr-desc">Persuasion, Intimidation, Negotiation, Domination</div>
+        <div class="attr-effects" id="social-effects"></div>
+      </div>
+      <div class="attr-divider"></div>
+      <div class="attr-box">
+        <div class="attr-name">Health</div>
+        <input type="number" min="0" id="current-health">
+        <div class="attr-desc">Current Health (max = Vitality)</div>
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Vitality</div>
+        <input type="number" min="0" value="50" id="vitality-input" data-base="50">
+        <div class="attr-desc">Sets maximum Health</div>
+        <div class="attr-effects" id="vitality-effects"></div>
+      </div>
+      <div class="attr-box">
+        <div class="attr-name">Dying Threshold</div>
+        <input type="number" id="dying-threshold" readonly>
+        <div class="attr-desc">15% of Vitality, rounded up</div>
+      </div>
+    </div>
+    <p class="note">All attributes begin at 0 (Vitality begins at 50). 2 points assigned at creation (max 3 each before lineage). No lineage available at creation modifies core attributes. Skills that grant attribute bonuses (e.g. Attributes tree, Defense, Athletics, Persuasion, Intimidation) add directly to the value shown here — editing the field by hand adjusts your base score independent of those skill bonuses. Other effects granted by purchased Attribute-tree skills (bonus dice, Opposition Check bonuses, etc.) are listed below each attribute in gold. Death occurs at 0 Health. While at or below the dying threshold, make Consciousness Checks (dice pool + higher of Willpower or Fortitude) per <em>Dying.md</em>. Bleeding out: 1% of Vitality (min 1) per round at end of turn until stabilized. Each character gets 3 AP per turn (see <em>Encounters/Actions.md</em>); unspent AP do not carry over.</p>
+  </div>
+
+  <!-- Weapons & Damage -->
+  <div class="card">
+    <h2>Weapons &amp; Damage</h2>
+    <div class="grid cols-2">
+      <div class="field">
+        <label>Equipped Melee Weapon</label>
+        <select id="melee-weapon">
+          <option value="0" selected>Unarmed (Strength bonus only)</option>
+          <option value="4">Light Melee (1d4) — Dagger, Knife, Shortsword, Club</option>
+          <option value="6">Medium Melee (1d6) — Axe, Longsword, Mace, Spear</option>
+          <option value="8">Heavy Melee (1d8) — Greataxe, Greatsword, Halberd, Maul</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Equipped Ranged Weapon</label>
+        <select id="ranged-weapon">
+          <option value="0" selected>None</option>
+          <option value="4">Light Ranged (1d4) — Sling, Hand Crossbow, Thrown Knife</option>
+          <option value="6">Medium Ranged (1d6) — Shortbow, Light Crossbow, Javelin</option>
+          <option value="8">Heavy Ranged (1d8) — Longbow, Heavy Crossbow, Thrown Spear</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid cols-2" style="margin-top:10px;">
+      <div class="field"><label>Melee Damage</label><input type="text" id="melee-damage" readonly></div>
+      <div class="field"><label>Ranged Damage</label><input type="text" id="ranged-damage" readonly></div>
+    </div>
+    <div class="grid cols-2" style="margin-top:10px;">
+      <div class="field">
+        <label>Magic Spell Base Damage Die</label>
+        <select id="magic-die">
+          <option value="4">d4</option>
+          <option value="6" selected>d6</option>
+          <option value="8">d8</option>
+          <option value="10">d10</option>
+        </select>
+      </div>
+      <div class="field"><label>Magic Damage</label><input type="text" id="magic-damage" readonly></div>
+    </div>
+    <p class="note">Melee/Ranged Damage = weapon base die, plus one bonus die of the same size per 3 points of Strength, plus any stacking flat-d6 bonuses from skills (Strength VII/IX, Melee/Ranged Attack X). Magic Damage = the spell's own base die (set here to match the spell being cast) plus one bonus die of the same size per 3 points of Willpower, plus stacking d6 bonuses from Willpower VII/IX and Magic Attack IV/IX.</p>
+  </div>
+
+  <!-- Armor & Mitigation -->
+  <div class="card">
+    <h2>Armor &amp; Mitigation</h2>
+    <div class="grid cols-2">
+      <div class="field">
+        <label>Equipped Armor</label>
+        <select id="equipped-armor">
+          <option value="0" selected>None</option>
+          <option value="2">Light (Leather, Padded, Studded Leather)</option>
+          <option value="4">Medium (Hide, Chain Shirt, Scale Mail)</option>
+          <option value="6">Heavy (Chain Mail, Splint, Plate)</option>
+        </select>
+      </div>
+      <div class="field"><label>Damage Mitigation</label><input type="number" id="damage-mitigation" readonly></div>
+    </div>
+    <p class="note">Damage Mitigation is a flat reduction applied to each hit, per <code>Equipment/Armor.md</code> &sect;7 (Light 2 / Medium 4 / Heavy 6).</p>
+  </div>
+
+  <!-- Currency -->
+  <div class="card">
+    <h2>Bottomless Coinpurse</h2>
+    <div class="grid cols-4">
+      <div class="field"><label>Copper (cp)</label><input type="number" value="0"></div>
+      <div class="field"><label>Silver (sp)</label><input type="number" value="0"></div>
+      <div class="field"><label>Gold (gp)</label><input type="number" value="0"></div>
+      <div class="field"><label>Platinum (pp)</label><input type="number" value="0"></div>
+    </div>
+    <div class="field" style="margin-top:10px;">
+      <label>Gems &amp; Jewels</label>
+      <textarea placeholder="e.g. 3 small sapphires (~25 gp each), a cracked opal pendant"></textarea>
+    </div>
+    <p class="note">10 cp = 1 sp, 10 sp = 1 gp, 10 gp = 1 pp. The Bottomless Coinpurse is a Bag of Holding for wealth — coins, gems, and jewels stored here have no weight and take no inventory slots. If lost or destroyed, loose wealth occupies slots (1 per denomination; gems by type). A replacement costs 50 gp.</p>
+  </div>
+
+  <!-- Inventory -->
+  <div class="card">
+    <h2>Inventory</h2>
+    <div class="grid cols-4">
+      <div class="field"><label>Base Slots</label><input type="number" value="50" readonly></div>
+      <div class="field"><label>Bonus Slots (3 &times; Strength)</label><input type="number" id="bonus-slots" readonly></div>
+      <div class="field"><label>Total Capacity</label><input type="number" id="total-slots" readonly></div>
+      <div class="field"><label>Remaining Capacity</label><input type="number" id="remaining-slots" readonly></div>
+    </div>
+    <table class="inv" style="margin-top:10px;">
+      <thead>
+        <tr><th style="width:8%">Equipped</th><th style="width:30%">Item</th><th style="width:11%">Size</th><th style="width:11%">Qty</th><th style="width:11%">Slots Used</th><th style="width:14%">Value (gp)</th><th style="width:14%">Total (gp)</th></tr>
+      </thead>
+      <tbody id="inv-body"></tbody>
+    </table>
+    <p class="note">Tiny/Small = 1 slot (stacks of identical Tiny/Small items share 1 slot), Medium = 2 slots, Large = 3 slots. Max item size: Large. Equipped items (worn armor, wielded weapons) take up no backpack slots.</p>
+  </div>
+
+  <!-- Skill Points -->
+  <div class="card">
+    <h2>Skill Points</h2>
+    <div class="grid cols-3">
+      <div class="field"><label>Unspent SP</label><input type="number" value="10" id="unspent-sp"></div>
+      <div class="field"><label>Spent SP (auto from skills below)</label><input type="number" id="spent-sp" readonly></div>
+    </div>
+    <label class="human-potential-row">
+      <input type="checkbox" id="human-potential">
+      <span>Human Potential — Humans receive +2 starting SP (10 &rarr; 12) at character creation only. Checking this adjusts Unspent SP by &plusmn;2.</span>
+    </label>
+    <p class="note" id="sp-tally">Skills purchased below: <span id="sp-tally-count">0</span> SP (1 SP per checked skill). Checking a skill automatically deducts 1 from Unspent SP and adds 1 to Spent SP; unchecking refunds it. Skills must be purchased in order — a skill is locked until its predecessor in that line is purchased.</p>
+  </div>
+
+  <!-- Skills -->
+  <div class="card">
+    <h2 class="gold">Skills</h2>
+    <p class="note">Check each purchased skill (skills are purchased in order; a skill's prerequisite is the skill before it in its line, unless noted otherwise). Hover a skill for its effect. See the skill constellation diagrams (<em>Tools/Skill Trees/skill-trees.html</em>) for full details.</p>
+    <div class="skills-wrap">
+      <div class="skill-group"><h3>Combat</h3><div class="skill-row"><span class="skill-name">Melee Attack</span><span class="skill-boxes"><label class="chk" title="The character may use light melee weapons."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+2 to melee attack rolls with light weapons."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+2 to melee damage rolls with light weapons."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="The character may use medium melee weapons."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+2 to melee attack rolls and melee damage rolls with medium weapons."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="The character may use heavy melee weapons."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+2 to melee attack rolls with heavy weapons."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+2 to melee damage rolls with heavy weapons."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="+1d6 to all melee attack rolls."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to all melee damage rolls."><input type="checkbox" data-cost="1" data-dmg-key="meleeBonusDie"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Ranged Attack</span><span class="skill-boxes"><label class="chk" title="The character may use light ranged weapons. Ranged attack rolls suffer a -2 penalty."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="Removes the -2 ranged attack penalty. +2 to ranged attack rolls with light weapons."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+2 to ranged damage rolls with light weapons."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="The character may use medium ranged weapons."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+2 to ranged attack rolls and ranged damage rolls with medium weapons."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="The character may use heavy ranged weapons."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+2 to ranged attack rolls with heavy weapons."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+2 to ranged damage rolls with heavy weapons."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="+1d6 to all ranged attack rolls."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to all ranged damage rolls."><input type="checkbox" data-cost="1" data-dmg-key="rangedBonusDie"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Magic Attack</span><span class="skill-boxes"><label class="chk" title="The character may cast Level 0 spells."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="The character may cast 1st level spells."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="The character may cast 2nd level spells. +1d6 to magic attack rolls."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="The character may cast 3rd level spells. +1d6 to magic damage rolls."><input type="checkbox" data-cost="1" data-dmg-key="magicBonusDie"><span>IV</span></label><label class="chk" title="The character may cast 4th level spells."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="The character may cast 5th level spells."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="The character may cast 6th level spells."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="The character may cast 7th level spells. +1d6 to magic attack rolls."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="The character may cast 8th level spells. +1d6 to magic damage rolls."><input type="checkbox" data-cost="1" data-dmg-key="magicBonusDie"><span>IX</span></label><label class="chk" title="The character may cast 9th level spells."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Defense</span><span class="skill-boxes"><label class="chk" title="+1 Reflex."><input type="checkbox" data-cost="1" data-bonus="Reflex,1"><span>I</span></label><label class="chk" title="+1 Reflex."><input type="checkbox" data-cost="1" data-bonus="Reflex,1"><span>II</span></label><label class="chk" title="+1 Reflex."><input type="checkbox" data-cost="1" data-bonus="Reflex,1"><span>III</span></label><label class="chk" title="Choose one defensive skill (Dodge, Evasion, Parry, or Block). +1d6 to rolls using that defensive skill."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="Choose one defensive skill (Dodge, Evasion, Parry, or Block). +1d6 to rolls using that defensive skill."><input type="checkbox" data-cost="1"><span>V</span></label></span></div><div class="skill-row"><span class="skill-name">Movement</span><span class="skill-boxes"><label class="chk" title="+5 feet of movement per AP spent on movement."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Dodge, Evasion, Block, and Parry Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1d6 to defense rolls against attacks of opportunity."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="+5 feet of movement per AP spent when swimming, climbing, or crawling."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="The character does not provoke reactions or attacks of opportunity when moving during combat."><input type="checkbox" data-cost="1"><span>V</span></label></span></div><div class="skill-row"><span class="skill-name">Armor</span><span class="skill-boxes"><label class="chk" title="The character may wear light armor. While wearing light armor, the character suffers -2 Reflex."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="Removes the -2 Reflex penalty for wearing light armor."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="The character may wear medium armor. While wearing medium armor, the character suffers -2 Reflex."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="Removes the -2 Reflex penalty for wearing medium armor."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1d6 to defense rolls while wearing light or medium armor."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="The character may wear heavy armor. While wearing heavy armor, the character suffers -2 Reflex, -5 feet of movement per round, and -4 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="Removes the -2 Reflex penalty for wearing heavy armor."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="Removes the -5 feet movement penalty for wearing heavy armor."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="Removes the -4 Stealth Opposition Check penalty for wearing heavy armor."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to defense rolls while wearing heavy armor."><input type="checkbox" data-cost="1"><span>X</span></label></span></div></div><div class="skill-group"><h3>Weapon — Melee</h3><div class="skill-row"><span class="skill-name">Simple Melee</span><span class="skill-boxes"><label class="chk" title="The character may use simple melee weapons in combat. Attacks made with simple melee weapons cost 3 AP."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="Reduces the AP cost for attacks made with simple melee weapons to 2 AP."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="Reduces the AP cost for attacks made with simple melee weapons to 1 AP."><input type="checkbox" data-cost="1"><span>III</span></label></span></div><div class="skill-row"><span class="skill-name">Martial Melee</span><span class="skill-boxes"><label class="chk" title="The character may use martial melee weapons in combat. Attacks made with martial melee weapons cost 3 AP."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="Reduces the AP cost for attacks made with martial melee weapons to 2 AP."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="Reduces the AP cost for attacks made with martial melee weapons to 1 AP."><input type="checkbox" data-cost="1"><span>III</span></label></span></div><div class="skill-row"><span class="skill-name">Exotic Melee</span><span class="skill-boxes"><label class="chk" title="The character may use exotic melee weapons in combat. Attacks made with exotic melee weapons cost 3 AP."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="Reduces the AP cost for attacks made with exotic melee weapons to 2 AP."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="Reduces the AP cost for attacks made with exotic melee weapons to 1 AP."><input type="checkbox" data-cost="1"><span>III</span></label></span></div></div><div class="skill-group"><h3>Weapon — Ranged</h3><div class="skill-row"><span class="skill-name">Simple Ranged</span><span class="skill-boxes"><label class="chk" title="The character may use simple ranged weapons in combat. Attacks made with simple ranged weapons cost 3 AP."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="Reduces the AP cost for attacks made with simple ranged weapons to 2 AP."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="Reduces the AP cost for attacks made with simple ranged weapons to 1 AP."><input type="checkbox" data-cost="1"><span>III</span></label></span></div><div class="skill-row"><span class="skill-name">Martial Ranged</span><span class="skill-boxes"><label class="chk" title="The character may use martial ranged weapons in combat. Attacks made with martial ranged weapons cost 3 AP."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="Reduces the AP cost for attacks made with martial ranged weapons to 2 AP."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="Reduces the AP cost for attacks made with martial ranged weapons to 1 AP."><input type="checkbox" data-cost="1"><span>III</span></label></span></div><div class="skill-row"><span class="skill-name">Exotic Ranged</span><span class="skill-boxes"><label class="chk" title="The character may use exotic ranged weapons in combat. Attacks made with exotic ranged weapons cost 3 AP."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="Reduces the AP cost for attacks made with exotic ranged weapons to 2 AP."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="Reduces the AP cost for attacks made with exotic ranged weapons to 1 AP."><input type="checkbox" data-cost="1"><span>III</span></label></span></div></div><div class="skill-group"><h3>Influence</h3><div class="skill-row"><span class="skill-name">Influence (Trunk)</span><span class="skill-boxes"><label class="chk" title="+1 to all Influence Opposition Checks (Persuasion, Intimidation, and Negotiation). Unlocks the Persuasion, Intimidation, and Negotiation branches."><input type="checkbox" data-cost="1"><span>I</span></label></span></div><div class="skill-row"><span class="skill-name">Persuasion</span><span class="skill-boxes"><label class="chk" title="+1 to Persuasion Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Persuasion Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Persuasion Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>IV</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>V</span></label><label class="chk" title="The character may simultaneously attempt to persuade a number of targets equal to their Social score."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Persuasion Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>VIII</span></label><label class="chk" title="+1 to Persuasion Opposition Checks."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Persuasion Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Intimidation</span><span class="skill-boxes"><label class="chk" title="+1 to Intimidation Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Intimidation Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Intimidation Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>IV</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>V</span></label><label class="chk" title="The character may simultaneously attempt to intimidate a number of targets equal to their Social score."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Intimidation Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>VIII</span></label><label class="chk" title="+1 to Intimidation Opposition Checks."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Intimidation Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Negotiation</span><span class="skill-boxes"><label class="chk" title="+1 to Negotiation Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Negotiation Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Negotiation Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>IV</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>V</span></label><label class="chk" title="Once per session, after a failed Negotiation Opposition Check, the character may roll 1d6. On a natural 6, the negotiation is considered to have succeeded."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Negotiation Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>VIII</span></label><label class="chk" title="+1 to Negotiation Opposition Checks."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Negotiation Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div></div><div class="skill-group"><h3>Survival</h3><div class="skill-row"><span class="skill-name">Athletics</span><span class="skill-boxes"><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>I</span></label><label class="chk" title="+5 feet of movement per AP spent when swimming or climbing."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>III</span></label><label class="chk" title="+5 feet of movement per AP spent when swimming or climbing."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>V</span></label><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>VI</span></label><label class="chk" title="+5 feet of movement per AP spent when swimming or climbing."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Athletics Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>IX</span></label><label class="chk" title="+1d6 to Athletics Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Endurance</span><span class="skill-boxes"><label class="chk" title="+1 to Endurance Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Endurance Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Endurance Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="+1d6 to Opposition Checks to resist poison and disease."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 to Endurance Opposition Checks."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="+1 to Endurance Opposition Checks."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Endurance Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Endurance Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="+1d6 to Consciousness Checks."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Endurance Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Medicine</span><span class="skill-boxes"><label class="chk" title="+1 to Medicine Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Medicine Opposition Checks. The character can stabilize a dying character. Stabilization requires one round and no kit. The dying character remains unconscious but is no longer deteriorating."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Medicine Opposition Checks. The character can use a MedKit to heal, using up to 2 charges per treatment."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="+1 to Medicine Opposition Checks."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="The character can use up to 3 MedKit charges per treatment."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="The character can use a Trauma Kit, using up to 3 charges per treatment."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="The character can remove poison from a character. Requires 1 Trauma Kit charge."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="The character can restore consciousness to an unconscious character. Requires 1 Trauma Kit charge."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="The character can use up to 5 Trauma Kit charges per treatment."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="The character can attempt to revive a recently deceased character. The body must be intact and must not have been dead too long. Requires a Trauma Kit. The attempt requires a Medicine Opposition Check; the Narrator sets the difficulty."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Stealth</span><span class="skill-boxes"><label class="chk" title="+1 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="While hidden, the character may take one action without automatically breaking stealth. Whether stealth is broken remains subject to an Opposition Check at the Narrator's discretion."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="+1 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="+1 to Stealth Opposition Checks."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="Once per session, the character may hide in plain sight without cover or concealment. This ability does not require an Opposition Check to initiate, but maintaining stealth while observed remains subject to normal checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Tracking</span><span class="skill-boxes"><label class="chk" title="+1 to Tracking Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Tracking Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Tracking Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="When examining a trail, the character may ask the Narrator to identify who or what made it — species or type, approximate size, and number of individuals."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 to Tracking Opposition Checks."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="+1 to Tracking Opposition Checks."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Tracking Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Tracking Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="The character can track targets through supernatural concealment or deliberate trail-hiding. Tracking checks against such targets are made normally rather than automatically failing."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Tracking Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Wilderness</span><span class="skill-boxes"><label class="chk" title="+1 to Wilderness Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Wilderness Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Wilderness Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="The character can always locate food and clean water in natural environments. No Opposition Check is required under normal conditions."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 to Wilderness Opposition Checks."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="+1 to Wilderness Opposition Checks."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Wilderness Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Wilderness Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="The character can navigate any natural environment without landmarks, tools, or prior knowledge of the terrain. No Opposition Check is required for navigation under normal conditions."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Wilderness Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div></div><div class="skill-group"><h3>Investigation</h3><div class="skill-row"><span class="skill-name">Investigation (Trunk)</span><span class="skill-boxes"><label class="chk" title="+1 to all Investigation Opposition Checks. Unlocks all Investigation branches."><input type="checkbox" data-cost="1"><span>I</span></label></span></div><div class="skill-row"><span class="skill-name">Forensics</span><span class="skill-boxes"><label class="chk" title="+1 to Forensics Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Forensics Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Forensics Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="After examining a scene, the character may ask the Narrator whether supernatural forces were involved. The Narrator must answer yes or no."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 to Forensics Opposition Checks."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="Once per session, after examining a scene for one minute, the character may ask the Narrator to describe the sequence of events that occurred there. The Narrator must provide an accurate account of what happened."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Forensics Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Forensics Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="+1 to Forensics Opposition Checks."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Forensics Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Research</span><span class="skill-boxes"><label class="chk" title="+1 to Research Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Research Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Research Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="Research time is halved."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 to Research Opposition Checks."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="Once per session, the character automatically succeeds on a Research check. The character finds something relevant to what they are researching — it may not be what they were looking for at that time, but it is relevant to the subject of their investigation. The Narrator determines the form the information takes."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Research Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Research Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="+1 to Research Opposition Checks."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Research Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Situational Awareness</span><span class="skill-boxes"><label class="chk" title="+1 to Situational Awareness Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Situational Awareness Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Situational Awareness Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="The character cannot be surprised while conscious."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 to Situational Awareness Opposition Checks."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="+1 to Situational Awareness Opposition Checks."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Situational Awareness Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Situational Awareness Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="Once per session, the character may ask the Narrator whether there are any relevant details in the current scene they have not yet noticed. If the answer is yes, the Narrator must reveal them directly."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Situational Awareness Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Supernatural Detection</span><span class="skill-boxes"><label class="chk" title="+1 to Supernatural Detection Opposition Checks."><input type="checkbox" data-cost="1"><span>I</span></label><label class="chk" title="+1 to Supernatural Detection Opposition Checks."><input type="checkbox" data-cost="1"><span>II</span></label><label class="chk" title="+1 to Supernatural Detection Opposition Checks."><input type="checkbox" data-cost="1"><span>III</span></label><label class="chk" title="The character passively detects supernatural presence within 30 feet. The Narrator informs the character whenever something supernatural is nearby."><input type="checkbox" data-cost="1"><span>IV</span></label><label class="chk" title="+1 to Supernatural Detection Opposition Checks."><input type="checkbox" data-cost="1"><span>V</span></label><label class="chk" title="The character can identify the lineage or type of a detected supernatural entity, or identify the source and type of a magical effect, by concentrating for one round."><input type="checkbox" data-cost="1"><span>VI</span></label><label class="chk" title="+1 to Supernatural Detection Opposition Checks."><input type="checkbox" data-cost="1"><span>VII</span></label><label class="chk" title="+1d6 to Supernatural Detection Opposition Checks."><input type="checkbox" data-cost="1"><span>VIII</span></label><label class="chk" title="+1 to Supernatural Detection Opposition Checks."><input type="checkbox" data-cost="1"><span>IX</span></label><label class="chk" title="+1d6 to Supernatural Detection Opposition Checks."><input type="checkbox" data-cost="1"><span>X</span></label></span></div></div><div class="skill-group"><h3>Attributes</h3><div class="skill-row"><span class="skill-name">Dominance</span><span class="skill-boxes"><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>I</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>II</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>III</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>IV</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>V</span></label><label class="chk" title="+2 Social."><input type="checkbox" data-cost="1" data-bonus="Social,2"><span>VI</span></label><label class="chk" title="+1d6 to Domination Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="dominanceDomination" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Domination Opposition Checks"><span>VII</span></label><label class="chk" title="The character may simultaneously attempt to intimidate a number of targets equal to their Social score."><input type="checkbox" data-cost="1" data-effect-text="May simultaneously attempt to intimidate a number of targets equal to Dominance."><span>VIII</span></label><label class="chk" title="+1d6 to Domination Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="dominanceDomination" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Domination Opposition Checks"><span>IX</span></label><label class="chk" title="+1d6 to Domination Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="dominanceDomination" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Domination Opposition Checks"<span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Empathy</span><span class="skill-boxes"><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>I</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>II</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>III</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>IV</span></label><label class="chk" title="+1 Social."><input type="checkbox" data-cost="1" data-bonus="Social,1"><span>V</span></label><label class="chk" title="+2 Social."><input type="checkbox" data-cost="1" data-bonus="Social,2"><span>VI</span></label><label class="chk" title="+1d6 to Empathy Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="empathyChecks" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Empathy Opposition Checks"><span>VII</span></label><label class="chk" title="The character may simultaneously attempt to persuade a number of targets equal to their Social score."><input type="checkbox" data-cost="1" data-effect-text="May simultaneously attempt to persuade a number of targets equal to Empathy."><span>VIII</span></label><label class="chk" title="+1d6 to Empathy Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="empathyChecks" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Empathy Opposition Checks"><span>IX</span></label><label class="chk" title="+1d6 to Empathy Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="empathyChecks" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Empathy Opposition Checks"<span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Reflex</span><span class="skill-boxes"><label class="chk" title="+1 Reflex."><input type="checkbox" data-cost="1" data-bonus="Reflex,1"><span>I</span></label><label class="chk" title="+1 Reflex."><input type="checkbox" data-cost="1" data-bonus="Reflex,1"><span>II</span></label><label class="chk" title="+1 Reflex."><input type="checkbox" data-cost="1" data-bonus="Reflex,1"><span>III</span></label><label class="chk" title="+1 Reflex."><input type="checkbox" data-cost="1" data-bonus="Reflex,1"><span>IV</span></label><label class="chk" title="+1 Reflex."><input type="checkbox" data-cost="1" data-bonus="Reflex,1"><span>V</span></label><label class="chk" title="The character gains a free counterattack when an attack against them is successfully dodged, parried, evaded, or blocked."><input type="checkbox" data-cost="1" data-effect-text="Free counterattack when an attack against the character is successfully dodged, parried, evaded, or blocked."><span>VI</span></label><label class="chk" title="+1 to Dodge, Parry, Evasion, and Block Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="reflexDefenseFlat" data-effect-amount="1" data-effect-unit="flat" data-effect-label="to Dodge, Parry, Evasion, and Block Opposition Checks"><span>VII</span></label><label class="chk" title="+1 to Dodge, Parry, Evasion, and Block Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="reflexDefenseFlat" data-effect-amount="1" data-effect-unit="flat" data-effect-label="to Dodge, Parry, Evasion, and Block Opposition Checks"><span>VIII</span></label><label class="chk" title="+1d6 to Dodge, Parry, Evasion, and Block Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="reflexDefenseDice" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Dodge, Parry, Evasion, and Block Opposition Checks"><span>IX</span></label><label class="chk" title="+1d6 to Dodge, Parry, Evasion, and Block Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="reflexDefenseDice" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Dodge, Parry, Evasion, and Block Opposition Checks"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Strength</span><span class="skill-boxes"><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>I</span></label><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>II</span></label><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>III</span></label><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>IV</span></label><label class="chk" title="+1 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,1"><span>V</span></label><label class="chk" title="+2 Strength."><input type="checkbox" data-cost="1" data-bonus="Strength,2"><span>VI</span></label><label class="chk" title="+1d6 to melee damage rolls."><input type="checkbox" data-cost="1" data-effect-key="strengthMeleeDamage" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to melee damage rolls"><span>VII</span></label><label class="chk" title="+1d6 to grappling and overpower Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="strengthGrapple" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to grappling and overpower Opposition Checks"><span>VIII</span></label><label class="chk" title="+1d6 to melee damage rolls."><input type="checkbox" data-cost="1" data-effect-key="strengthMeleeDamage" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to melee damage rolls"><span>IX</span></label><label class="chk" title="+1d6 to Opposition Checks involving feats of strength (grappling, climbing, lifting, and similar physical contests)."><input type="checkbox" data-cost="1" data-effect-key="strengthFeats" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Opposition Checks involving feats of strength (grappling, climbing, lifting, and similar physical contests)"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Vitality</span><span class="skill-boxes"><label class="chk" title="+10 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,10"><span>I</span></label><label class="chk" title="+10 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,10"><span>II</span></label><label class="chk" title="+10 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,10"><span>III</span></label><label class="chk" title="+10 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,10"><span>IV</span></label><label class="chk" title="+10 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,10"><span>V</span></label><label class="chk" title="+20 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,20"><span>VI</span></label><label class="chk" title="+20 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,20"><span>VII</span></label><label class="chk" title="+20 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,20"><span>VIII</span></label><label class="chk" title="+20 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,20"><span>IX</span></label><label class="chk" title="+20 Vitality."><input type="checkbox" data-cost="1" data-bonus="Vitality,20"><span>X</span></label></span></div><div class="skill-row"><span class="skill-name">Willpower</span><span class="skill-boxes"><label class="chk" title="+1 Willpower."><input type="checkbox" data-cost="1" data-bonus="Willpower,1"><span>I</span></label><label class="chk" title="+1 Willpower."><input type="checkbox" data-cost="1" data-bonus="Willpower,1"><span>II</span></label><label class="chk" title="+1 Willpower."><input type="checkbox" data-cost="1" data-bonus="Willpower,1"><span>III</span></label><label class="chk" title="+1 Willpower."><input type="checkbox" data-cost="1" data-bonus="Willpower,1"><span>IV</span></label><label class="chk" title="+1 Willpower."><input type="checkbox" data-cost="1" data-bonus="Willpower,1"><span>V</span></label><label class="chk" title="+2 Willpower. Movement does not break concentration."><input type="checkbox" data-cost="1" data-bonus="Willpower,2" data-effect-text="Movement does not break concentration."><span>VI</span></label><label class="chk" title="+1d6 to magic damage rolls."><input type="checkbox" data-cost="1" data-effect-key="willpowerMagicDamage" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to magic damage rolls"><span>VII</span></label><label class="chk" title="+1 to Concentration Opposition Checks."><input type="checkbox" data-cost="1" data-effect-key="willpowerConcentration" data-effect-amount="1" data-effect-unit="flat" data-effect-label="to Concentration Opposition Checks"><span>VIII</span></label><label class="chk" title="+1d6 to magic damage rolls."><input type="checkbox" data-cost="1" data-effect-key="willpowerMagicDamage" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to magic damage rolls"><span>IX</span></label><label class="chk" title="+1d6 to Opposition Checks involving feats of will (resisting domination, compulsion, fear, and similar effects)."><input type="checkbox" data-cost="1" data-effect-key="willpowerFeats" data-effect-amount="1" data-effect-unit="d6" data-effect-label="to Opposition Checks involving feats of will (resisting domination, compulsion, fear, and similar effects)"><span>X</span></label></span></div></div>
+    </div>
+  </div>
+
+  <!-- Lineage -->
+  <div class="card">
+    <h2>Lineage &amp; Notes</h2>
+    <div class="grid cols-2">
+      <div class="field"><label>Lineage Origin / How Unlocked (if applicable)</label><textarea></textarea></div>
+      <div class="field"><label>Lineage Skills / Traits</label><textarea></textarea></div>
+    </div>
+    <div class="field" style="margin-top:10px;"><label>Background, Personality, Goals</label><textarea style="min-height:100px;"></textarea></div>
+  </div>
+
+</div>
+
+<script>
+  const dyingThreshold = document.getElementById("dying-threshold");
+  const currentHealth = document.getElementById("current-health");
+  const bonusSlots = document.getElementById("bonus-slots");
+  const totalSlots = document.getElementById("total-slots");
+  const remainingSlots = document.getElementById("remaining-slots");
+  const unspentSP = document.getElementById("unspent-sp");
+  const spTallyCount = document.getElementById("sp-tally-count");
+  const spentSP = document.getElementById("spent-sp");
+  let effectiveLevel = 0; // = Spent SP; not displayed, but included in exports
+  const humanPotential = document.getElementById("human-potential");
+
+  // Attribute inputs. Each input's displayed value = its "base" (the player's
+  // assigned/edited score, stored in data-base) plus any flat bonuses granted
+  // by purchased skills (data-bonus="Attr,Amount"). Skill-granted bonuses are
+  // folded directly into the attribute value, not shown as a separate line.
+  const ATTR_KEYS = ["Fortitude", "Social", "Reflex", "Strength", "Vitality", "Willpower"];
+  const attrEls = {};
+  ATTR_KEYS.forEach(key => {
+    const k = key.toLowerCase();
+    attrEls[key] = {
+      input: document.getElementById(k + "-input"),
+      effects: document.getElementById(k + "-effects"),
+      rows: [],
+    };
+  });
+
+  // Find each attribute's skill-row(s) in the Attributes skill-group, so we can
+  // read its checkboxes for both the attribute total and the effects list.
+  // Social is built from two branches (Dominance and Empathy), so it collects
+  // both rows.
+  const SOCIAL_BRANCHES = ["Dominance", "Empathy"];
+  document.querySelectorAll(".skill-group").forEach(group => {
+    const h3 = group.querySelector("h3");
+    if (!h3 || h3.textContent.trim() !== "Attributes") return;
+    group.querySelectorAll(".skill-row").forEach(row => {
+      const nameEl = row.querySelector(".skill-name");
+      const name = nameEl && nameEl.textContent.trim();
+      if (SOCIAL_BRANCHES.includes(name)) {
+        attrEls.Social.rows.push(row);
+      } else if (attrEls[name]) {
+        attrEls[name].rows.push(row);
+      }
+    });
+  });
+
+  // Sum the flat bonus a given attribute currently receives from purchased skills
+  function skillBonusFor(attr) {
+    let bonus = 0;
+    document.querySelectorAll('.chk input[type="checkbox"][data-bonus]').forEach(c => {
+      if (!c.checked) return;
+      const [a, amt] = c.dataset.bonus.split(",");
+      if (a === attr) bonus += parseInt(amt, 10) || 0;
+    });
+    return bonus;
+  }
+
+  // Recompute each attribute's displayed value as base + current skill bonus
+  function recalcAttrTotals() {
+    ATTR_KEYS.forEach(key => {
+      const base = parseInt(attrEls[key].input.dataset.base, 10) || 0;
+      attrEls[key].input.value = base + skillBonusFor(key);
+    });
+  }
+
+  // Recompute the gold "other effects" list under each attribute, combining
+  // repeated dice/flat bonuses (e.g. two "+1d6 to magic damage rolls" become
+  // "+2d6 to magic damage rolls") from purchased Attribute-tree skills.
+  function recalcAttrEffects() {
+    ATTR_KEYS.forEach(key => {
+      const { rows, effects } = attrEls[key];
+      if (!rows || !rows.length || !effects) return;
+      const checks = rows.flatMap(row => Array.from(row.querySelectorAll('input[type="checkbox"]')));
+      const lines = [];
+      const seenText = new Set();
+      const groups = {};
+      const groupOrder = [];
+      let order = 0;
+      checks.forEach(c => {
+        if (!c.checked) return;
+        if (c.dataset.effectText && !seenText.has(c.dataset.effectText)) {
+          seenText.add(c.dataset.effectText);
+          lines.push({ order: order++, text: c.dataset.effectText });
+        }
+        if (c.dataset.effectKey) {
+          const gk = c.dataset.effectKey;
+          if (!groups[gk]) {
+            groups[gk] = {
+              sum: 0,
+              unit: c.dataset.effectUnit,
+              label: c.dataset.effectLabel,
+              order: order++,
+            };
+            groupOrder.push(gk);
+          }
+          groups[gk].sum += parseInt(c.dataset.effectAmount, 10) || 0;
+        }
+      });
+      groupOrder.forEach(gk => {
+        const g = groups[gk];
+        if (g.sum === 0) return;
+        const amountText = g.unit === "d6" ? `${g.sum}d6` : `${g.sum}`;
+        lines.push({ order: g.order, text: `+${amountText} ${g.label}.` });
+      });
+      lines.sort((a, b) => a.order - b.order);
+      effects.innerHTML = lines.map(l => l.text).join("<br>");
+    });
+  }
+
+  // Vitality -> dying threshold (max Health is Vitality itself, shown in the
+  // Attributes card, so it is not duplicated here)
+  function recalcHealth() {
+    const vit = parseInt(attrEls.Vitality.input.value, 10) || 0;
+    dyingThreshold.value = Math.ceil(vit * 0.15);
+    if (!currentHealth.value) currentHealth.value = vit;
+  }
+
+  // Strength -> inventory slots
+  function recalcSlots() {
+    const str = parseInt(attrEls.Strength.input.value, 10) || 0;
+    bonusSlots.value = str * 3;
+    totalSlots.value = 50 + str * 3;
+    recalcInventory();
+  }
+
+  // Sum of Slots Used across inventory rows -> remaining capacity
+  function recalcInventory() {
+    const rows = document.querySelectorAll("#inv-body tr");
+    let used = 0;
+    rows.forEach(tr => {
+      const slotsInput = tr.querySelectorAll('input[type="number"]')[1];
+      if (slotsInput) used += parseInt(slotsInput.value, 10) || 0;
+    });
+    const total = parseInt(totalSlots.value, 10) || 0;
+    remainingSlots.value = total - used;
+  }
+
+  // Skill point tally
+  const skillChecks = document.querySelectorAll('.chk input[type="checkbox"]');
+  function recalcSP() {
+    let total = 0;
+    skillChecks.forEach(c => { if (c.checked) total += 1; });
+    spTallyCount.textContent = total;
+    spentSP.value = total;
+    effectiveLevel = total;
+  }
+
+  // Sum data-effect-amount across ALL checked skill checkboxes sharing a given
+  // data-effect-key, regardless of which skill-row they're in (used for damage
+  // calculations that draw from both Attribute-tree and Combat-tree skills).
+  function sumEffectKey(key) {
+    let sum = 0;
+    document.querySelectorAll(`.chk input[type="checkbox"][data-effect-key="${key}"]`).forEach(c => {
+      if (c.checked) sum += parseInt(c.dataset.effectAmount, 10) || 0;
+    });
+    return sum;
+  }
+
+  // Sum +1d6-style stacking bonuses tagged with data-dmg-key (Melee/Ranged
+  // Attack X, Magic Attack IV/IX) — each checked box contributes 1d6.
+  function sumDmgKey(key) {
+    let sum = 0;
+    document.querySelectorAll(`.chk input[type="checkbox"][data-dmg-key="${key}"]`).forEach(c => {
+      if (c.checked) sum += 1;
+    });
+    return sum;
+  }
+
+  // Build a "base + Nd[die] (Attribute) + Md6 (skills)" damage string.
+  function buildDamageString(baseDie, attrTotal, skillD6) {
+    const parts = [];
+    if (baseDie > 0) parts.push(`1d${baseDie}`);
+    const attrDice = Math.floor((attrTotal || 0) / 3);
+    if (attrDice > 0) {
+      const dieForBonus = baseDie > 0 ? baseDie : 6;
+      parts.push(`${attrDice}d${dieForBonus} (Attribute)`);
+    }
+    if (skillD6 > 0) parts.push(`${skillD6}d6 (Skills)`);
+    if (parts.length === 0) return "—";
+    return parts.join(" + ");
+  }
+
+  const meleeWeaponSel = document.getElementById("melee-weapon");
+  const rangedWeaponSel = document.getElementById("ranged-weapon");
+  const armorSel = document.getElementById("equipped-armor");
+  const magicDieSel = document.getElementById("magic-die");
+  const meleeDamageOut = document.getElementById("melee-damage");
+  const rangedDamageOut = document.getElementById("ranged-damage");
+  const magicDamageOut = document.getElementById("magic-damage");
+  const damageMitigationOut = document.getElementById("damage-mitigation");
+  const strengthDamageOut = document.getElementById("strength-damage");
+  const willpowerDamageOut = document.getElementById("willpower-damage");
+
+  // Recompute weapon/spell damage strings and armor mitigation
+  function recalcCombat() {
+    const str = parseInt(attrEls.Strength.input.value, 10) || 0;
+    const will = parseInt(attrEls.Willpower.input.value, 10) || 0;
+
+    const meleeBaseDie = parseInt(meleeWeaponSel.value, 10) || 0;
+    const meleeSkillD6 = sumEffectKey("strengthMeleeDamage") + sumDmgKey("meleeBonusDie");
+    meleeDamageOut.value = buildDamageString(meleeBaseDie, str, meleeSkillD6);
+
+    const rangedBaseDie = parseInt(rangedWeaponSel.value, 10) || 0;
+    const rangedSkillD6 = sumDmgKey("rangedBonusDie");
+    rangedDamageOut.value = rangedBaseDie > 0
+      ? buildDamageString(rangedBaseDie, str, rangedSkillD6)
+      : "No ranged weapon equipped";
+
+    const magicBaseDie = parseInt(magicDieSel.value, 10) || 0;
+    const magicSkillD6 = sumEffectKey("willpowerMagicDamage") + sumDmgKey("magicBonusDie");
+    magicDamageOut.value = buildDamageString(magicBaseDie, will, magicSkillD6);
+
+    damageMitigationOut.value = parseInt(armorSel.value, 10) || 0;
+
+    // Reflect weapon/spell damage under the relevant attribute boxes
+    const meleeLabel = meleeBaseDie > 0 ? meleeDamageOut.value : `Unarmed: ${meleeDamageOut.value}`;
+    const rangedLabel = rangedBaseDie > 0 ? `Ranged: ${rangedDamageOut.value}` : "";
+    strengthDamageOut.textContent = rangedLabel
+      ? `Melee: ${meleeLabel}\n${rangedLabel}`
+      : `Melee: ${meleeLabel}`;
+
+    willpowerDamageOut.textContent = `Magic: ${magicDamageOut.value}`;
+  }
+
+  [meleeWeaponSel, rangedWeaponSel, armorSel, magicDieSel].forEach(el => {
+    el.addEventListener("change", recalcCombat);
+  });
+
+  // Master recalc, run after any change that could affect derived values
+  function recalcAll() {
+    recalcAttrTotals();
+    recalcAttrEffects();
+    recalcHealth();
+    recalcSlots();
+    recalcSP();
+    recalcCombat();
+  }
+
+  // When the player edits an attribute field directly, treat the new number
+  // as base + current skill bonus, so the field shows exactly what they typed.
+  ATTR_KEYS.forEach(key => {
+    attrEls[key].input.addEventListener("input", () => {
+      const shown = parseInt(attrEls[key].input.value, 10) || 0;
+      attrEls[key].input.dataset.base = shown - skillBonusFor(key);
+      recalcAll();
+    });
+  });
+
+  // Human Potential: +2 / -2 to Unspent SP when toggled by the user
+  humanPotential.addEventListener("change", () => {
+    const delta = humanPotential.checked ? 2 : -2;
+    unspentSP.value = (parseInt(unspentSP.value, 10) || 0) + delta;
+    refreshAllSkillLocks();
+  });
+
+  // Skill purchase ordering: a skill is locked until the previous skill in its
+  // line is purchased. Toggling a skill adjusts Unspent SP by -1 (purchase) or
+  // +1 (refund), including cascading refunds when an earlier skill is unchecked.
+  const skillRowRefreshers = [];
+  document.querySelectorAll(".skill-boxes").forEach(box => {
+    const checks = Array.from(box.querySelectorAll('input[type="checkbox"]'));
+
+    let prevStates = checks.map(x => x.checked);
+
+    function updateLocks() {
+      const noSP = (parseInt(unspentSP.value, 10) || 0) <= 0;
+      checks.forEach((c, i) => {
+        if (i === 0) {
+          c.disabled = c.checked ? false : noSP;
+          return;
+        }
+        const prevChecked = checks[i - 1].checked;
+        if (!prevChecked && c.checked) c.checked = false;
+        c.disabled = c.checked ? false : (!prevChecked || noSP);
+      });
+      prevStates = checks.map(x => x.checked);
+    }
+
+    checks.forEach(c => {
+      c.addEventListener("change", () => {
+        const before = prevStates.slice();
+        updateLocks();
+        const after = checks.map(x => x.checked);
+        let delta = 0;
+        before.forEach((wasChecked, i) => {
+          if (wasChecked !== after[i]) delta += after[i] ? -1 : 1;
+        });
+        if (delta !== 0) {
+          unspentSP.value = (parseInt(unspentSP.value, 10) || 0) + delta;
+        }
+        refreshAllSkillLocks();
+        recalcAll();
+      });
+    });
+
+    updateLocks();
+    skillRowRefreshers.push(updateLocks);
+  });
+
+  function refreshAllSkillLocks() {
+    skillRowRefreshers.forEach(fn => fn());
+  }
+
+  recalcAll();
+
+  // Inventory rows
+  const invBody = document.getElementById("inv-body");
+  const SLOTS_PER_SIZE = { Tiny: 1, Small: 1, Medium: 2, Large: 3 };
+
+  // Master item list (Weapons.md, Armor.md, Gear.md), alphabetical, with sizes
+  const ITEM_SIZES = {
+    "Axe": "Medium",
+    "Backpack": "Small",
+    "Bedroll": "Small",
+    "Candle": "Tiny",
+    "Chain mail": "Large",
+    "Chain shirt": "Large",
+    "Chalk (1 piece)": "Tiny",
+    "Club": "Small",
+    "Bottomless Coinpurse": "Tiny",
+    "Crowbar": "Small",
+    "Dagger": "Small",
+    "Flask of oil": "Tiny",
+    "Grappling hook": "Medium",
+    "Greataxe": "Large",
+    "Greatsword": "Large",
+    "Halberd": "Large",
+    "Hand crossbow": "Small",
+    "Heavy crossbow": "Large",
+    "Hide armor": "Large",
+    "Holy symbol": "Tiny",
+    "Javelin": "Medium",
+    "Knife": "Small",
+    "Lantern": "Small",
+    "Leather armor": "Medium",
+    "Light crossbow": "Medium",
+    "Longbow": "Large",
+    "Longsword": "Medium",
+    "Mace": "Medium",
+    "Manacles": "Small",
+    "Maul": "Large",
+    "MedKit (10 charges)": "Small",
+    "Padded armor": "Medium",
+    "Plate armor": "Large",
+    "Rations (1 day)": "Tiny",
+    "Rope (50 ft)": "Medium",
+    "Scale mail": "Large",
+    "Shortbow": "Medium",
+    "Shortsword": "Small",
+    "Sling": "Tiny",
+    "Spear": "Medium",
+    "Spell component pouch": "Small",
+    "Splint armor": "Large",
+    "Steel mirror": "Small",
+    "Studded leather": "Medium",
+    "Tent": "Large",
+    "Thieves' tools": "Small",
+    "Thrown knife": "Small",
+    "Thrown spear": "Medium",
+    "Torch": "Tiny",
+    "Trauma Kit (10 charges)": "Medium",
+    "Waterskin": "Small",
+    "Whetstone": "Tiny"
+  };
+  const ITEM_NAMES = Object.keys(ITEM_SIZES).sort((a, b) => a.localeCompare(b));
+
+  // Item gp values, per Weapons.md / Armor.md / Gear.md cost columns
+  const ITEM_COSTS = {
+    "Axe": 10,
+    "Backpack": 2,
+    "Bedroll": 0.1,
+    "Candle": 0.01,
+    "Chain mail": 150,
+    "Chain shirt": 50,
+    "Chalk (1 piece)": 0.01,
+    "Club": 0,
+    "Bottomless Coinpurse": 50,
+    "Crowbar": 2,
+    "Dagger": 2,
+    "Flask of oil": 0.1,
+    "Grappling hook": 1,
+    "Greataxe": 30,
+    "Greatsword": 50,
+    "Halberd": 10,
+    "Hand crossbow": 100,
+    "Heavy crossbow": 50,
+    "Hide armor": 15,
+    "Holy symbol": 5,
+    "Javelin": 1,
+    "Knife": 1,
+    "Lantern": 5,
+    "Leather armor": 10,
+    "Light crossbow": 35,
+    "Longbow": 50,
+    "Longsword": 15,
+    "Mace": 5,
+    "Manacles": 2,
+    "Maul": 12,
+    "MedKit (10 charges)": 5,
+    "Padded armor": 5,
+    "Plate armor": 1500,
+    "Rations (1 day)": 0.5,
+    "Rope (50 ft)": 1,
+    "Scale mail": 50,
+    "Shortbow": 25,
+    "Shortsword": 10,
+    "Sling": 0,
+    "Spear": 2,
+    "Spell component pouch": 5,
+    "Splint armor": 200,
+    "Steel mirror": 5,
+    "Studded leather": 25,
+    "Tent": 5,
+    "Thieves' tools": 25,
+    "Thrown knife": 1,
+    "Thrown spear": 2,
+    "Torch": 0.01,
+    "Trauma Kit (10 charges)": 50,
+    "Waterskin": 0.2,
+    "Whetstone": 0.01
+  };
+
+  function addInvRow() {
+    const tr = document.createElement("tr");
+    const itemOptions = ['<option value="">—</option>']
+      .concat(ITEM_NAMES.map(name => `<option value="${name}">${name}</option>`))
+      .join("");
+    tr.innerHTML = `
+      <td style="text-align:center"><input type="checkbox"></td>
+      <td>
+        <span class="inv-remove" title="Remove item" style="cursor:pointer; margin-right:1rem;">🗑️</span>
+        <select>
+          ${itemOptions}
+        </select>
+      </td>
+      <td class="inv-size" style="text-align:center">&mdash;</td>
+      <td><input type="number" value="0" min="0" style="text-align:right"></td>
+      <td><input type="number" value="0" min="0" readonly style="text-align:right"></td>
+      <td><input type="text" value="0.00" readonly style="text-align:right"></td>
+      <td><input type="text" value="0.00" readonly style="text-align:right"></td>
+    `;
+    const equippedChk = tr.querySelector('input[type="checkbox"]');
+    const itemSel = tr.querySelector("td:nth-child(2) select");
+    const sizeCell = tr.querySelector(".inv-size");
+    const qtyInput = tr.querySelectorAll('input[type="number"]')[0];
+    const slotsInput = tr.querySelectorAll('input[type="number"]')[1];
+    const valueInput = tr.querySelectorAll('input[type="text"]')[0];
+    const totalInput = tr.querySelectorAll('input[type="text"]')[1];
+    const removeBtn = tr.querySelector(".inv-remove");
+
+    function recalcRowSlots() {
+      if (equippedChk.checked) {
+        slotsInput.value = 0;
+        recalcInventory();
+        return;
+      }
+      const size = ITEM_SIZES[itemSel.value] || "";
+      const qty = parseInt(qtyInput.value, 10) || 0;
+      if (qty <= 0) {
+        slotsInput.value = 0;
+        recalcInventory();
+        return;
+      }
+      if (!size) {
+        slotsInput.value = 0;
+      } else if (size === "Tiny" || size === "Small") {
+        slotsInput.value = 1;
+      } else {
+        slotsInput.value = SLOTS_PER_SIZE[size] * qty;
+      }
+      recalcInventory();
+    }
+
+    function recalcRowValue() {
+      const name = itemSel.value;
+      const qty = parseInt(qtyInput.value, 10) || 0;
+      const unitValue = (name && ITEM_COSTS[name] !== undefined) ? ITEM_COSTS[name] : 0;
+      if (qty <= 0) {
+        valueInput.value = "";
+        totalInput.value = "";
+      } else {
+        valueInput.value = unitValue.toFixed(2);
+        totalInput.value = (unitValue * qty).toFixed(2);
+      }
+    }
+
+    itemSel.addEventListener("change", () => {
+      const name = itemSel.value;
+      if (name && ITEM_SIZES[name]) {
+        sizeCell.textContent = ITEM_SIZES[name];
+        qtyInput.value = 1;
+      } else {
+        sizeCell.textContent = "—";
+      }
+      recalcRowSlots();
+      recalcRowValue();
+    });
+    qtyInput.addEventListener("input", () => {
+      recalcRowSlots();
+      recalcRowValue();
+    });
+    equippedChk.addEventListener("change", recalcRowSlots);
+    removeBtn.addEventListener("click", () => {
+      itemSel.value = "";
+      sizeCell.textContent = "—";
+      qtyInput.value = 0;
+      equippedChk.checked = false;
+      recalcRowSlots();
+      recalcRowValue();
+    });
+    recalcRowSlots();
+    recalcRowValue();
+
+    invBody.appendChild(tr);
+  }
+  for (let i = 0; i < 20; i++) addInvRow();
+
+  // Pre-fill starting equipment
+  function presetInvRow(rowIndex, itemName, options = {}) {
+    const tr = invBody.children[rowIndex];
+    if (!tr) return;
+    const equippedChk = tr.querySelector('input[type="checkbox"]');
+    const itemSel = tr.querySelector("td:nth-child(2) select");
+    const qtyInput = tr.querySelectorAll('input[type="number"]')[0];
+    itemSel.value = itemName;
+    itemSel.dispatchEvent(new Event("change"));
+    if (options.qty) {
+      qtyInput.value = options.qty;
+      qtyInput.dispatchEvent(new Event("input"));
+    }
+    if (options.equipped) {
+      equippedChk.checked = true;
+      equippedChk.dispatchEvent(new Event("change"));
+    }
+  }
+  presetInvRow(0, "Backpack", { equipped: true });
+  presetInvRow(1, "Bottomless Coinpurse", { equipped: true });
+  presetInvRow(2, "Bedroll");
+  presetInvRow(3, "Rations (1 day)", { qty: 7 });
+  presetInvRow(4, "Rope (50 ft)");
+  presetInvRow(5, "Torch", { qty: 2 });
+  presetInvRow(6, "Waterskin");
+
+  // Archetype presets — starting templates only. Each spends exactly the
+  // default 10 Unspent SP across a few skill lines (purchased from tier I,
+  // respecting prerequisite order) and adds matching starter gear after the
+  // base survival kit (rows 0-6). Fully reversible: switching/clearing the
+  // archetype refunds the SP and removes the gear it added.
+  const ARCHETYPES = {
+    Fighter: {
+      skills: [["Melee Attack", 4], ["Simple Melee", 1], ["Martial Melee", 1], ["Defense", 3], ["Armor", 1]],
+      gear: [
+        { item: "Longsword", equipped: true },
+        { item: "Studded leather", equipped: true }
+      ]
+    },
+    Mage: {
+      skills: [["Magic Attack", 4], ["Willpower", 3], ["Defense", 3]],
+      gear: [
+        { item: "Dagger", equipped: true },
+        { item: "Spell component pouch", equipped: true }
+      ]
+    },
+    Thief: {
+      skills: [["Stealth", 4], ["Melee Attack", 2], ["Simple Melee", 1], ["Reflex", 3]],
+      gear: [
+        { item: "Dagger", equipped: true },
+        { item: "Thieves' tools", equipped: true }
+      ]
+    },
+    Cleric: {
+      skills: [["Magic Attack", 3], ["Medicine", 3], ["Willpower", 2], ["Defense", 2]],
+      gear: [
+        { item: "Mace", equipped: true },
+        { item: "Holy symbol", equipped: true },
+        { item: "MedKit (10 charges)", equipped: true }
+      ]
+    },
+    Ranger: {
+      skills: [["Ranged Attack", 4], ["Simple Ranged", 1], ["Martial Ranged", 1], ["Tracking", 2], ["Reflex", 2]],
+      gear: [
+        { item: "Longbow", equipped: true },
+        { item: "Studded leather", equipped: true },
+        { item: "Dagger", equipped: true }
+      ]
+    },
+    Brute: {
+      skills: [["Melee Attack", 4], ["Martial Melee", 1], ["Strength", 3], ["Fortitude", 2]],
+      gear: [
+        { item: "Greataxe", equipped: true },
+        { item: "Hide armor", equipped: true },
+        { item: "Rope (50 ft)" }
+      ]
+    },
+    Knight: {
+      skills: [["Melee Attack", 4], ["Martial Melee", 1], ["Armor", 3], ["Defense", 2]],
+      gear: [
+        { item: "Longsword", equipped: true },
+        { item: "Chain shirt", equipped: true },
+        { item: "Dagger", equipped: true }
+      ]
+    },
+    Noble: {
+      skills: [["Influence (Trunk)", 1], ["Persuasion", 4], ["Negotiation", 4], ["Dominance", 3]],
+      gear: [
+        { item: "Steel mirror", equipped: true },
+        { item: "Dagger", equipped: true }
+      ]
+    },
+    Merchant: {
+      skills: [["Investigation (Trunk)", 1], ["Research", 4], ["Negotiation", 4], ["Empathy", 3]],
+      gear: [
+        { item: "Steel mirror" },
+        { item: "Crowbar" },
+        { item: "Lantern", equipped: true }
+      ]
+    },
+    Diplomat: {
+      skills: [["Influence (Trunk)", 1], ["Persuasion", 4], ["Negotiation", 4], ["Empathy", 3]],
+      gear: [
+        { item: "Steel mirror", equipped: true }
+      ]
+    },
+    Healer: {
+      skills: [["Medicine", 6], ["Willpower", 3], ["Fortitude", 3]],
+      gear: [
+        { item: "Trauma Kit (10 charges)", equipped: true },
+        { item: "MedKit (10 charges)" }
+      ]
+    },
+    Herbalist: {
+      skills: [["Wilderness", 5], ["Medicine", 4], ["Athletics", 3]],
+      gear: [
+        { item: "MedKit (10 charges)", equipped: true },
+        { item: "Rations (1 day)", qty: 5 }
+      ]
+    },
+    Investigator: {
+      skills: [["Investigation (Trunk)", 1], ["Forensics", 4], ["Situational Awareness", 4], ["Research", 3]],
+      gear: [
+        { item: "Lantern", equipped: true },
+        { item: "Steel mirror" },
+        { item: "Crowbar" }
+      ]
+    },
+    Performer: {
+      skills: [["Influence (Trunk)", 1], ["Persuasion", 6], ["Empathy", 5]],
+      gear: [
+        { item: "Steel mirror", equipped: true }
+      ]
+    },
+    Infiltrator: {
+      skills: [["Stealth", 7], ["Athletics", 5]],
+      gear: [
+        { item: "Thieves' tools", equipped: true },
+        { item: "Dagger", equipped: true }
+      ]
+    },
+    Occultist: {
+      skills: [["Investigation (Trunk)", 1], ["Supernatural Detection", 4], ["Magic Attack", 4], ["Willpower", 3]],
+      gear: [
+        { item: "Spell component pouch", equipped: true },
+        { item: "Candle", qty: 3 },
+        { item: "Holy symbol" }
+      ]
+    }
+  };
+
+  function getSkillChecks(lineName) {
+    const rows = document.querySelectorAll(".skill-group .skill-row");
+    for (const row of rows) {
+      const nameEl = row.querySelector(".skill-name");
+      if (nameEl && nameEl.textContent.trim() === lineName) {
+        return Array.from(row.querySelectorAll('.skill-boxes input[type="checkbox"]'));
+      }
+    }
+    return [];
+  }
+
+  function setSkillTier(lineName, tier) {
+    const checks = getSkillChecks(lineName);
+    for (let i = 0; i < tier && i < checks.length; i++) {
+      if (!checks[i].checked) {
+        checks[i].checked = true;
+        const cost = parseInt(checks[i].dataset.cost, 10) || 1;
+        unspentSP.value = (parseInt(unspentSP.value, 10) || 0) - cost;
+      }
+    }
+    refreshAllSkillLocks();
+    recalcAll();
+  }
+
+  function clearSkillLine(lineName) {
+    const checks = getSkillChecks(lineName);
+    checks.forEach(c => {
+      if (c.checked) {
+        const cost = parseInt(c.dataset.cost, 10) || 1;
+        unspentSP.value = (parseInt(unspentSP.value, 10) || 0) + cost;
+        c.checked = false;
+      }
+    });
+    refreshAllSkillLocks();
+    recalcAll();
+  }
+
+  let appliedArchetypeRows = [];
+  let archetypeSetHumanPotential = false;
+
+  function applyArchetype(name) {
+    const arch = ARCHETYPES[name];
+    if (!arch) return;
+    // Archetype builds spend up to 12 SP, assuming Human Potential's +2.
+    // If the player hasn't already claimed it, check it on their behalf.
+    if (!humanPotential.checked) {
+      humanPotential.checked = true;
+      humanPotential.dispatchEvent(new Event("change"));
+      archetypeSetHumanPotential = true;
+    } else {
+      archetypeSetHumanPotential = false;
+    }
+    arch.skills.forEach(([line, tier]) => setSkillTier(line, tier));
+    let rowIdx = 7;
+    arch.gear.forEach(g => {
+      while (invBody.children[rowIdx] && invBody.children[rowIdx].querySelector("td:nth-child(2) select").value !== "") {
+        rowIdx++;
+      }
+      if (!invBody.children[rowIdx]) return;
+      presetInvRow(rowIdx, g.item, { equipped: g.equipped, qty: g.qty });
+      appliedArchetypeRows.push(rowIdx);
+      rowIdx++;
+    });
+  }
+
+  function clearArchetype(name) {
+    const arch = ARCHETYPES[name];
+    if (!arch) return;
+    arch.skills.forEach(([line]) => clearSkillLine(line));
+    appliedArchetypeRows.forEach(idx => {
+      const tr = invBody.children[idx];
+      if (tr) tr.querySelector(".inv-remove").click();
+    });
+    appliedArchetypeRows = [];
+    if (archetypeSetHumanPotential) {
+      humanPotential.checked = false;
+      humanPotential.dispatchEvent(new Event("change"));
+      archetypeSetHumanPotential = false;
+    }
+  }
+
+  let currentArchetype = null;
+  const archetypeSelect = document.getElementById("archetype-select");
+  archetypeSelect.addEventListener("change", () => {
+    if (currentArchetype) clearArchetype(currentArchetype);
+    const name = archetypeSelect.value;
+    if (name && ARCHETYPES[name]) {
+      applyArchetype(name);
+      currentArchetype = name;
+    } else {
+      currentArchetype = null;
+    }
+  });
+
+  document.getElementById("reset-character").addEventListener("click", () => {
+    if (confirm("Reset the entire character sheet back to its default blank state? This cannot be undone.")) {
+      location.reload();
+    }
+  });
+
+  // Import / Export JSON
+  function getAllFields() {
+    return Array.from(document.querySelectorAll('#sheet input, #sheet select, #sheet textarea'));
+  }
+
+  function exportCharacter() {
+    const fields = getAllFields();
+    const data = fields.map(el => el.type === "checkbox" ? el.checked : el.value);
+    const json = JSON.stringify({ version: 1, fields: data, effectiveLevel: effectiveLevel }, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const nameField = document.querySelector('#sheet input[type="text"]');
+    const rawName = (nameField && nameField.value.trim()) || "character";
+    let fname = rawName.replace(/[^a-z0-9_\- ]/gi, "").trim().replace(/\s+/g, "_");
+    if (!fname) fname = "character";
+    a.download = fname + ".json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function importCharacter(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      let data;
+      try {
+        data = JSON.parse(e.target.result);
+      } catch (err) {
+        alert("That file isn't valid JSON.");
+        return;
+      }
+      const values = data.fields || [];
+      const fields = getAllFields();
+      fields.forEach((el, i) => {
+        if (i >= values.length) return;
+        const val = values[i];
+        if (el.type === "checkbox") el.checked = !!val;
+        else if (!el.readOnly) el.value = val;
+      });
+      refreshAllSkillLocks();
+      // Imported attribute values already include skill bonuses; rederive
+      // each attribute's base score from the imported value and the (now
+      // restored) skill checkbox states before recalculating.
+      ATTR_KEYS.forEach(key => {
+        const shown = parseInt(attrEls[key].input.value, 10) || 0;
+        attrEls[key].input.dataset.base = shown - skillBonusFor(key);
+      });
+      recalcAll();
+    };
+    reader.readAsText(file);
+  }
+
+  document.getElementById("import-file").addEventListener("change", (e) => {
+    importCharacter(e.target.files[0]);
+    e.target.value = "";
+  });
+</script>
+
+</body>
+</html>
