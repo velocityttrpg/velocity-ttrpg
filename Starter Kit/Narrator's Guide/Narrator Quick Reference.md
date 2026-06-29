@@ -9,6 +9,7 @@ This document covers everything you need to run *The Weight of Silence*. For dee
 Every contested action in Velocity resolves as an **Opposition Check**: both sides assemble a dice pool plus an Attribute bonus. Highest total wins. A tie is a stalemate — narrate forward without declaring a winner.
 
 **How to build a total:**
+
 1. Start with 1d10 (always, for everyone)
 2. Add flat bonuses from applicable skills
 3. Add the relevant Attribute score
@@ -16,7 +17,7 @@ Every contested action in Velocity resolves as an **Opposition Check**: both sid
 
 The Narrator rolls the opposition privately and announces the outcome descriptively — not as numbers, but as what happens in the fiction.
 
-*Core Rules reference: Opposition Checks.md*
+[Core Rules reference: Opposition Checks — Core Procedure](Core%20Rules/Encounters/Opposition%20Checks.md#core-procedure)
 
 ---
 
@@ -40,7 +41,7 @@ When none of these apply, compare the character's **opposition score** (relevant
 | Dangerous | 14–16 |
 | Extreme | 17–20 |
 
-*Core Rules reference: Opposition Checks.md, Tables/Opposition Check Difficulty Table.md*
+[Core Rules reference: Opposition Checks — When to Make an Opposition Check](Core%20Rules/Encounters/Opposition%20Checks.md#when-to-make-an-opposition-check) · [Opposition Check Difficulty Table](Core%20Rules/Tables/Opposition%20Check%20Difficulty%20Table.md)
 
 ---
 
@@ -56,7 +57,7 @@ Unspent AP does not carry over.
 
 **Attacks:** The first attack each turn has no penalty. Each additional attack in the same turn incurs a cumulative −2 penalty. A character's flat attack bonuses directly offset this penalty.
 
-*Core Rules reference: Encounters/Actions.md*
+[Core Rules reference: Actions — Action Points](Core%20Rules/Encounters/Actions.md#actions)
 
 ---
 
@@ -72,7 +73,7 @@ Unspent AP does not carry over.
 
 **Vitality** is not an assignable attribute and is not used in Opposition Checks. It sets maximum Health (base 25 for all characters). It increases only through the Vitality skill tree, lineage traits, or specific abilities — never through creation-time point assignment.
 
-*Core Rules reference: Characters/Attributes.md*
+[Core Rules reference: Attributes — Core Attributes](Core%20Rules/Characters/Attributes.md#core-attributes)
 
 ---
 
@@ -85,10 +86,11 @@ When a character is attacked, they choose one defense:
 - **Block:** Requires a shield or similar. Dice pool from Block-granting skills + Reflex.
 
 **Against spells:**
+
 - Physical/elemental spells (fire, lightning, force): Dodge only.
 - Mind-affecting spells (charm, compulsion, fear): Dice pool + Willpower.
 
-*Core Rules reference: Encounters/Actions.md §8.3*
+[Core Rules reference: Actions §8.3](Core%20Rules/Encounters/Actions.md#attack-resolution)
 
 ---
 
@@ -98,7 +100,7 @@ Armor mitigates damage after a hit lands — it does not affect whether the atta
 
 Characters in this adventure wearing light armor (leather, mitigation 3) subtract 3 from every physical hit before applying damage to Health. Magic weapons, spells, and magical abilities bypass armor entirely.
 
-*Core Rules reference: Equipment/Armor.md*
+[Core Rules reference: Armor](Core%20Rules/Equipment/Armor.md#armor)
 
 ---
 
@@ -109,6 +111,7 @@ Characters in this adventure wearing light armor (leather, mitigation 3) subtrac
 - **Death:** Health reaches 0.
 
 When a character's Health drops to or below the dying threshold:
+
 - They enter the **Dying** condition: −2 on all Opposition Checks, movement reduced by 5 ft per AP.
 - They bleed out at 1 Health per round (at end of their turn).
 - They must make a **Consciousness Check** (1d10 + Willpower vs. the damage that triggered it). Failure = unconscious.
@@ -116,7 +119,7 @@ When a character's Health drops to or below the dying threshold:
 
 Going unconscious is not death — it is a story problem.
 
-*Core Rules reference: Characters/Dying.md*
+[Core Rules reference: Dying — Dying State](Core%20Rules/Characters/Dying.md#dying-state)
 
 ---
 
@@ -126,7 +129,7 @@ A conscious character can stabilize an unconscious, bleeding-out ally. Stabiliza
 
 A character with Apothecary skills and a Healer's Bag can restore Health: 1d6 + Willpower per charge (10 charges). Without tools, stabilization alone is available.
 
-*Core Rules reference: Characters/Stabilization.md*
+[Core Rules reference: Stabilization](Core%20Rules/Characters/Stabilization.md#stabilization)
 
 ---
 
@@ -135,13 +138,14 @@ A character with Apothecary skills and a Healer's Bag can restore Health: 1d6 + 
 Velocity's social resolution uses the same Opposition Check framework as combat. The difference is what's at stake.
 
 **Key principles for running social scenes:**
+
 - **NPCs resist based on their interests, not a fixed number.** A guard who wants to keep his job resists differently than a guard who's already been paid. Set difficulty based on the NPC's motivation.
 - **A failed check doesn't end the scene.** It changes what's available. The guard doesn't let the player in — but the player is still standing there.
 - **Stalemates are forward motion.** When both sides tie, narrate a moment of tension and let the scene evolve. Nobody wins and nobody loses.
 
 **Investigation checks** reveal information. Set difficulty based on how obscure the information is. A successful check delivers what the player was looking for. A failed check delivers nothing — or delivers something that creates a new question.
 
-*Core Rules reference: Opposition Checks.md, Skills/Universal/Influence/*
+[Core Rules reference: Opposition Checks — Core Procedure](Core%20Rules/Encounters/Opposition%20Checks.md#core-procedure) · [Influence skill tree](Core%20Rules/Skills/Universal/Influence/Influence.md)
 
 ---
 
@@ -166,6 +170,7 @@ Maximum possible: 3 SP. A typical session awards 1–2 SP.
 *The Weight of Silence* uses a two-hour recess as its clock. The Narrator controls how this feels at the table.
 
 **Tools for maintaining urgency:**
+
 - A bell tower that strikes the hour
 - An NPC mentioning that the verdict is due soon
 - Voss or his guards moving through town with visible purpose
@@ -173,4 +178,4 @@ Maximum possible: 3 SP. A typical session awards 1–2 SP.
 
 **Do not enforce the clock mechanically.** The two hours are a narrative device, not a timer on the table. If players are engaged and making meaningful choices, let the scene breathe. If they're stalling, accelerate. The Narrator's dramatic judgment is final.
 
-*Core Rules reference: Core Rules/Introduction.md — Principle 3 (The Narrator Directs)*
+[Core Rules reference: Introduction — Principle 3, The Narrator Directs](Core%20Rules/Introduction.md#what-kind-of-game-is-this)

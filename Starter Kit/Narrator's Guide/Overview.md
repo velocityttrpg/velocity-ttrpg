@@ -63,4 +63,4 @@ Liriel is imprisoned in the subcellar of the Voss Trading Company's **Counting H
 
 The frame job only holds in the silence between them.
 
-The players witnessed the tavern brawl. They know Kalen was provoked — they just didn't hear what was said. That ambiguity is what opens the investigation. What they will discover is far worse than a corrupt magistrate protecting a business deal.
+The players witnessed the tavern brawl. They know Kalen was provoked — they just didn’t hear what was said. That ambiguity is what opens the investigation. What they will discover is far worse than a corrupt magistrate protecting a business deal.
