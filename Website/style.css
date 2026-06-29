@@ -41,11 +41,22 @@ html {
 
 body {
   min-height: 100%;
-  background: radial-gradient(ellipse at 50% 0%, var(--bg-mid) 0%, var(--bg-deep) 70%);
+  background-color: var(--bg-deep);
   color: var(--text-main);
   font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.7;
+}
+
+/* Viewport-locked gradient — position:fixed pseudo-element is more reliable
+   than background-attachment:fixed across browsers and file:// vs https:// */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, var(--bg-mid) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* Serif for all readable content */
@@ -373,7 +384,7 @@ details.nav-accordion details.nav-accordion details.nav-accordion > a {
    plain, unwrapped paragraphs real spacing instead. */
 #reader-content > p { margin-bottom: 1em; }
 #reader-content strong { color: var(--text-main); }
-#reader-content p > strong:first-child { color: var(--accent-gold); }
+#reader-content p > strong.para-label { color: var(--accent-gold); }
 #reader-content code  {
   font-family: "Consolas", monospace;
   font-size: 0.88em;

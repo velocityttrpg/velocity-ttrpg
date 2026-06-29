@@ -42,6 +42,24 @@ const BOOKS = [
     navExclude: new Set(),
   },
   {
+    id:           'starter-kit',
+    name:         'Starter Kit',
+    slug:         'starter-kit',
+    color:        '#c47fff',
+    source:       path.join(PROJECT_ROOT, 'Starter Kit'),
+    navExclude:   new Set(['Starter Kit Review']),
+    chapterOrder: [
+      'Introduction',
+      "Narrator's Guide/Overview",
+      "Narrator's Guide/Dunmore and Dardan",
+      "Narrator's Guide/Narrator Quick Reference",
+      "Narrator's Guide/The Truthstone",
+      "Narrator's Guide/Act 1 - The Tribunal",
+      "Narrator's Guide/Act 2 - The Investigation",
+      "Narrator's Guide/Act 3 - The Confrontation",
+    ],
+  },
+  {
     // Site-level pages (About, Playtesting) — content we actually iterate on,
     // unlike the static legal.html (OGL text we'll never revise). Rendered at
     // the Website root instead of under reader/<slug>/ so existing links like
@@ -426,6 +444,14 @@ function parseChapter(mdText, bookName, chapterName, paraPrefix) {
           return inlineMd(line.trimEnd()) + (hasBreak ? '<br>' : '');
         }).join('');
         inner = `<p>${processed}</p>`;
+        // Para-label rule: <strong> that opens the paragraph (no preceding text)
+        // and whose content ends with punctuation gets class="para-label" for
+        // CSS gold-colour targeting. CSS alone can't inspect what follows an
+        // element, so we stamp the class here at render time.
+        inner = inner.replace(
+          /^<p>(<strong>)([^<]+[:.!?,—–])(<\/strong>)/,
+          '<p><strong class="para-label">$2</strong>'
+        );
         break;
       }
     }
@@ -639,7 +665,13 @@ ${contentHtml}
       '?title='  + encodeURIComponent(title)  +
       '&body='   + encodeURIComponent(body)   +
       '&labels=' + encodeURIComponent(labels);
-    window.open(url, '_blank');
+    var a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     closeReportModal();
   }
 
@@ -680,21 +712,22 @@ function walkMdFiles(dir) {
 
 function orderChapters(chapters, chapterOrder) {
   if (!chapterOrder || !chapterOrder.length) return chapters;
-  // Only reorder top-level chapters (no navPath) — nested chapters under
-  // sub-groups keep their existing alphabetical/structural order.
-  const topLevel = chapters.filter(ch => ch.navPath.length === 0);
-  const nested = chapters.filter(ch => ch.navPath.length > 0);
+  // Supports both bare names ('Overview') for top-level chapters and full
+  // nav-path keys ("Narrator's Guide/Overview") for nested chapters.
+  // Ranked chapters are sorted by their chapterOrder index; unranked chapters
+  // follow in their original filesystem order.
+  function chapterKey(ch) {
+    return ch.navPath.length ? ch.navPath.join('/') + '/' + ch.name : ch.name;
+  }
 
-  const ranked = [];
-  const unranked = [];
-  for (const ch of topLevel) {
-    const idx = chapterOrder.indexOf(ch.name);
+  const ranked = [], unranked = [];
+  for (const ch of chapters) {
+    const idx = chapterOrder.indexOf(chapterKey(ch));
     if (idx === -1) unranked.push(ch);
     else ranked.push({ ch, idx });
   }
   ranked.sort((a, b) => a.idx - b.idx);
-
-  return [...ranked.map(r => r.ch), ...unranked, ...nested];
+  return [...ranked.map(r => r.ch), ...unranked];
 }
 
 // files (optional): a Set of basenames (without .md) to include. When provided,
@@ -870,7 +903,7 @@ function main() {
 
   const pageCount = new Set(allEntries.map(e => e.url.split('#')[0])).size;
 
-  console.log(`\n✅  Done — ${allEntries.length} paragraphs indexed across ${pageCount} pages.`);
+  console.log(`\n✅  Done — ${allEntries.length} paragraphs indexed across${pageCount} pages.`);
   console.log('    Index written to: search-index.json');
   console.log();
   console.log('    Next steps:');
