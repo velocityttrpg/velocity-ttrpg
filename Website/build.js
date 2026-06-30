@@ -20,6 +20,7 @@ const path = require('path');
 // ─── Configuration ────────────────────────────────────────────────────────────
 
 const GITHUB_REPO  = 'velocityttrpg/velocity-ttrpg';  // confirm this matches your actual org/repo
+const SITE_URL     = 'https://velocityttrpg.github.io/velocity-ttrpg';  // no trailing slash
 
 const SCRIPT_DIR   = __dirname;
 const PROJECT_ROOT = path.dirname(SCRIPT_DIR);
@@ -900,6 +901,36 @@ function main() {
   // Write search index (JSON for server use, JS for file:// use)
   fs.writeFileSync(path.join(SCRIPT_DIR, 'search-index.json'), JSON.stringify(allEntries, null, 2), 'utf8');
   fs.writeFileSync(path.join(SCRIPT_DIR, 'search-index.js'), 'window.SEARCH_INDEX = ' + JSON.stringify(allEntries) + ';', 'utf8');
+
+  // Write sitemap.xml — all generated pages + known hand-maintained root pages
+  const STATIC_PAGES = [
+    'index.html',
+    'about.html',
+    'playtesting.html',
+    'legal.html',
+    'character-sheet.html',
+    'character-sheet-reference.html',
+    'skill-trees.html',
+    'd20.html',
+  ];
+  const generatedUrls = new Set();
+  for (const [, chapters] of bookChapters) {
+    for (const ch of chapters) generatedUrls.add(ch.url);
+  }
+  const allUrls = [
+    ...STATIC_PAGES,
+    ...[...generatedUrls],
+  ];
+  const today = new Date().toISOString().slice(0, 10);
+  const sitemapXml =
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    allUrls.map(u =>
+      `  <url>\n    <loc>${SITE_URL}/${u}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`
+    ).join('\n') +
+    '\n</urlset>\n';
+  fs.writeFileSync(path.join(SCRIPT_DIR, 'sitemap.xml'), sitemapXml, 'utf8');
+  console.log(`    Sitemap written to: sitemap.xml (${allUrls.length} URLs)`);
 
   const pageCount = new Set(allEntries.map(e => e.url.split('#')[0])).size;
 
