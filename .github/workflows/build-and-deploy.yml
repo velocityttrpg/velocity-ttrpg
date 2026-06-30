@@ -15,6 +15,7 @@ on:
       - 'Website/character-sheet-reference.html'
       - 'Website/skill-trees.html'
       - 'Website/d20.html'
+      - 'Website/*.html'
       - 'Website/favicon*'
       - 'Website/apple-touch-icon.png'
   workflow_dispatch:  # allow manual trigger from the Actions tab
