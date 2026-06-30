@@ -567,6 +567,9 @@ function readerPage(contentHtml, chapterName, bookName, bookColor, navHtml, page
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escHtml(chapterName)}${titleSuffix} — Velocity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
   <link rel="icon" type="image/svg+xml" href="${root}favicon.svg">
   <link rel="icon" type="image/png" href="${root}favicon-32.png">
   <link rel="apple-touch-icon" href="${root}apple-touch-icon.png">
