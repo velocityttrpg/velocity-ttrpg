@@ -1,4 +1,4 @@
-# Aldric Fenn
+# Tomrin Fenn
 *Junior magistrate, Dunmore Tribunal*
 
 ## Stat Block

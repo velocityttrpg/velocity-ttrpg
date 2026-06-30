@@ -17,7 +17,7 @@ Crowded. Shoulder to shoulder. The whole town has come, drawn by the spectacle o
 - **Kalen Thorne** — chained at the center, beneath the shaft of light
 - **Seren Holt** — at the advocate's table, gavel in hand
 - **Aldric Voss** — on the dais, watching more carefully than the situation warrants
-- **Aldric Fenn** — on the dais, the youngest magistrate, visibly uncomfortable
+- **Tomrin Fenn** — on the dais, the youngest magistrate, visibly uncomfortable
 - Two unnamed tribunal guards flanking Kalen
 
 ## What Players Can Find Here

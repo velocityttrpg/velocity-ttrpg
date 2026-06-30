@@ -60,7 +60,7 @@ Read or paraphrase the following aloud:
 >
 > Holt does not look at him. "Overruled. The tribunal will proceed."
 >
-> At the far end of the dais, the youngest magistrate — Aldric Fenn, barely past twenty-five, with the look of a man who studied the law because he believed in it — opens his mouth. Holt's glare closes it.
+> At the far end of the dais, the youngest magistrate — Tomrin Fenn, barely past twenty-five, with the look of a man who studied the law because he believed in it — opens his mouth. Holt's glare closes it.
 >
 > Voss settles back, discomfort visible. He does not press the point. Fenn stares at his hands.
 >
@@ -105,7 +105,7 @@ Players who look around the tribunal hall during or after the testimony scene ma
 
 ### Approaching Fenn
 
-Players who approach Aldric Fenn during the recess find a young magistrate who is furious and has nowhere to put it. He believes the tribunal process is being violated. He is correct. He has no power to stop it.
+Players who approach Tomrin Fenn during the recess find a young magistrate who is furious and has nowhere to put it. He believes the tribunal process is being violated. He is correct. He has no power to stop it.
 
 He will tell players: he has never seen a tribunal proceed without a Truthteller or Truthstone. He raised the issue three times in the pre-session briefing and was overruled each time — by Holt, with Voss's silent backing. He doesn't know why, and he doesn't know who to report it to, because the people he would report it to *are* the problem.
 
