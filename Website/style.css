@@ -446,6 +446,10 @@ details.nav-accordion details.nav-accordion details.nav-accordion > a {
   font-style: italic;
 }
 
+#reader-content blockquote p + p {
+  margin-top: 1em;
+}
+
 #reader-content blockquote cite {
   display: block;
   margin-top: 6px;

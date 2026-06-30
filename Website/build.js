@@ -429,12 +429,23 @@ function parseChapter(mdText, bookName, chapterName, paraPrefix) {
         const rawLines = block.split('\n').map(l => l.replace(/^>\s?/, ''));
         const lastLine = rawLines[rawLines.length - 1].trim();
         const hasCite  = rawLines.length > 1 && /^(--|[—–])\s*\S/.test(lastLine);
+        const contentLines = hasCite ? rawLines.slice(0, -1) : rawLines;
+        // Split into paragraphs on blank lines (empty > lines become '' after stripping)
+        const bqParas = [];
+        let bqCurrent = [];
+        for (const line of contentLines) {
+          if (line.trim() === '') {
+            if (bqCurrent.length) { bqParas.push(bqCurrent.join(' ')); bqCurrent = []; }
+          } else {
+            bqCurrent.push(line);
+          }
+        }
+        if (bqCurrent.length) bqParas.push(bqCurrent.join(' '));
+        const bqBody = bqParas.map(p => `<p>${inlineMd(p)}</p>`).join('\n');
         if (hasCite) {
-          const quoteText = rawLines.slice(0, -1).join(' ');
-          inner = `<blockquote><p>${inlineMd(quoteText)}</p><cite>${inlineMd(lastLine)}</cite></blockquote>`;
+          inner = `<blockquote>${bqBody}<cite>${inlineMd(lastLine)}</cite></blockquote>`;
         } else {
-          const t = rawLines.join(' ');
-          inner = `<blockquote><p>${inlineMd(t)}</p></blockquote>`;
+          inner = `<blockquote>${bqBody}</blockquote>`;
         }
         break;
       }
@@ -934,7 +945,7 @@ function main() {
 
   const pageCount = new Set(allEntries.map(e => e.url.split('#')[0])).size;
 
-  console.log(`\n✅  Done — ${allEntries.length} paragraphs indexed across${pageCount} pages.`);
+  console.log(`\n✅  Done — ${allEntries.length} paragraphs indexed across ${pageCount} pages.`);
   console.log('    Index written to: search-index.json');
   console.log();
   console.log('    Next steps:');
