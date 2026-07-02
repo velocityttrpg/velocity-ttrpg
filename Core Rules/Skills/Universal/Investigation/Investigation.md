@@ -4,7 +4,7 @@
 
 ## Description
 
-Investigation covers the methods characters use to uncover hidden truths — reading crime scenes, digging through records, sensing the supernatural, and noticing what others miss. It is the toolkit of detectives, scholars, hunters, and anyone who has learned that the world rarely reveals its secrets without pressure.
+Investigation covers the methods characters use to uncover hidden truths — reading scenes of violence, digging through records, and sensing the supernatural. It is the toolkit of detectives, scholars, hunters, and anyone who has learned that the world rarely reveals its secrets without pressure.
 
 The Investigation trunk is a required purchase. It represents the foundational mindset — the discipline of observation, the habit of questioning assumptions, and the instinct to look past surface appearances — that makes all other Investigation skills possible.
 
@@ -20,4 +20,3 @@ The Investigation trunk is a required purchase. It represents the foundational m
 1. [Forensics](Forensics.md)
 2. [Research](Research.md)
 3. [Supernatural Detection](Supernatural Detection.md)
-4. [Situational Awareness](Situational Awareness.md)

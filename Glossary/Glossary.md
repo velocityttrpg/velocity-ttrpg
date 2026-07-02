@@ -28,11 +28,11 @@ The damage die a weapon or spell deals before any attribute or skill bonuses are
 
 ### bleeding out
 
-The ongoing Health loss suffered by a **dying** character: 1 Health at the end of their turn each round. Bleeding out triggers a **Consciousness Check** and ends when the Dying condition ends — the character is **stabilized**, recovers Health above their dying threshold, or dies.
+The ongoing Health loss suffered by a **Wounded** character: 1 Health at the end of their turn each round. Bleeding out triggers a **Consciousness Check** when the character is also Dying. Bleeding out ends when the character is **stabilized**, recovers Health above their **wounded threshold**, or dies.
 
 ### blind
 
-A condition. A Blind character cannot see. They cannot target unseen characters or objects by sight alone; before attacking or interacting with an unseen target, they must first succeed on a Situational Awareness Opposition Check to locate it by sound or other means. All sight-based Investigation and Situational Awareness checks fail automatically. See [Conditions](../Core%20Rules/Encounters/Conditions.md).
+A condition. A Blind character cannot see. They cannot target unseen characters or objects by sight alone; before attacking or interacting with an unseen target, they must first succeed on a Perception Opposition Check to locate it by sound or other means. All sight-based Investigation and Perception checks fail automatically. See [Conditions](../Core%20Rules/Encounters/Conditions.md).
 
 ### block
 
@@ -52,7 +52,7 @@ A check made when a concentrating participant takes damage, to determine whether
 
 ### consciousness check
 
-A check made by a non-unconscious character when they enter the **dying** state, take damage while dying, or lose Health from **bleeding out**. The character rolls their dice pool + Willpower; if the result meets or exceeds the damage value that triggered the check, they remain conscious. If the result is lower, they fall unconscious.
+A check made by a non-unconscious character when they enter the **Dying** condition, take damage while Dying, or lose Health from **bleeding out** while Dying. The character rolls their dice pool + Willpower; if the result meets or exceeds the damage value that triggered the check, they remain conscious. If the result is lower, they fall unconscious.
 
 ### dead / death
 
@@ -80,15 +80,23 @@ A defensive option against an attack. The defender rolls clear, twists, or steps
 
 ### deaf
 
-A condition. A Deaf character cannot hear. All hearing-based Situational Awareness and Investigation checks fail automatically. The character cannot understand verbal communication. Social skills requiring spoken exchange (Persuasion, Intimidation, Negotiation) require written or gestural alternatives; the Narrator determines whether this is feasible in context. See [Conditions](../Core%20Rules/Encounters/Conditions.md).
+A condition. A Deaf character cannot hear. All hearing-based Perception and Investigation checks fail automatically. The character cannot understand verbal communication. Social skills requiring spoken exchange (Persuasion, Intimidation, Negotiation) require written or gestural alternatives; the Narrator determines whether this is feasible in context. See [Conditions](../Core%20Rules/Encounters/Conditions.md).
 
 ### dying
 
-A condition. A character enters the Dying condition when their Health is at or below their **dying threshold**. Dying characters suffer −2 on all Opposition Checks and have their movement speed reduced by 5 ft — they can still attack, defend, and act, but at reduced effectiveness. Dying characters are also **bleeding out** and must make **Consciousness Checks**. If a dying character fails a Consciousness Check, they become **unconscious**, whose stricter restrictions then control. The Dying condition ends — and bleeding out and Consciousness Checks stop with it — when the character is stabilized, when their Health is restored above their dying threshold, or when they die. Stabilization does not remove the unconscious condition if the character has one. See [Dying](../Core%20Rules/Characters/Dying.md).
+A condition. A character enters the Dying condition when their Health is at or below their **dying threshold** (one quarter of maximum Vitality, rounded up). Dying characters suffer −2 on all Opposition Checks and have their movement speed reduced by 5 ft — they can still attack, defend, and act, but at reduced effectiveness. A Dying character is also **Wounded** (and therefore **bleeding out**, if not stabilized). Dying characters must make **Consciousness Checks** when they enter the Dying condition, take damage, or lose Health from bleeding out. If a dying character fails a Consciousness Check, they become **unconscious**, whose stricter restrictions then control. The Dying condition ends when the character's Health is restored above the dying threshold, or when they die. Stabilization ends bleeding out and Consciousness Checks but does not remove the Dying condition. See [Dying](../Core%20Rules/Characters/Dying.md).
 
 ### dying threshold
 
-A value equal to half a character's Vitality, rounded up. When Health is reduced to this value or lower, the character enters the **dying** state.
+A value equal to one quarter of a character's maximum Vitality, rounded up. When Health is reduced to this value or lower, the character enters the **dying** condition. See also **wounded threshold**.
+
+### wounded
+
+A condition. A character enters the Wounded condition when their Health is at or below their **wounded threshold** (half their maximum Vitality, rounded up). Wounded characters begin **bleeding out** — 1 Health lost per round at the end of their turn — but can still attack, defend, and act without penalty. If Health drops further to or below the **dying threshold**, the character also enters the **dying** condition. The Wounded condition ends when Health is restored above the wounded threshold. Stabilization ends bleeding out but does not remove the Wounded condition. See [Dying](../Core%20Rules/Characters/Dying.md).
+
+### wounded threshold
+
+A value equal to half a character's maximum Vitality, rounded up. When Health is reduced to this value or lower, the character enters the **wounded** condition and begins **bleeding out**. See the [Health Thresholds by Vitality Table](../Core%20Rules/Tables/Health%20Thresholds%20by%20Vitality%20Table.md) for values at each Vitality total.
 
 ### effective level (EL)
 
@@ -268,7 +276,7 @@ A casting option that amplifies a spell's effect at greater Health cost. An over
 
 ### stabilization
 
-The act of stopping a **dying** character's bleeding out and Consciousness Checks. A healer adjacent to the dying character spends 1 AP and succeeds on a **Medicine Check** against a difficulty equal to **(dying threshold − current Health)**, with +4 added in combat. Stabilization doesn't restore Health or remove the Unconscious condition — see **Forced Awakening** and [Stabilization](../Core%20Rules/Characters/Stabilization.md).
+The act of stopping a **Wounded** or **Dying** character's Bleeding Out and Consciousness Checks. A healer adjacent to the character spends 1 AP and succeeds on an **Apothecary check** against a difficulty equal to **(wounded threshold − current Health)**, with +4 added in combat. Stabilization doesn't restore Health, doesn't remove the Wounded or Dying conditions, and doesn't remove the Unconscious condition — see **Forced Awakening** and [Stabilization](../Core%20Rules/Characters/Stabilization.md).
 
 ### stalemate
 

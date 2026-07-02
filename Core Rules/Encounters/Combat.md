@@ -73,6 +73,6 @@ Combat regularly imposes conditions on participants — Dying, Prone, Hindered, 
 
 ## Dying and Death
 
-When a character's Health falls to or below their dying threshold (half their Vitality, rounded up — 13 Health at base), they enter the Dying condition and begin Bleeding Out. Reaching 0 Health means death.
+When a character's Health falls to or below their **wounded threshold** (half their Vitality, rounded up — 13 Health at base Vitality 25), they enter the Wounded condition and begin Bleeding Out. When Health falls further to or below their **dying threshold** (one quarter of their Vitality, rounded up — 7 Health at base Vitality 25), they enter the Dying condition: −2 on all Opposition Checks, movement reduced by 5 ft, Consciousness Checks on incoming damage. Reaching 0 Health means death.
 
 See [Dying](../Characters/Dying.md), [Stabilization](../Characters/Stabilization.md), and [Death](../Characters/Death.md).

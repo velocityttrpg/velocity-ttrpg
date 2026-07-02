@@ -22,6 +22,13 @@ const path = require('path');
 const GITHUB_REPO  = 'velocityttrpg/velocity-ttrpg';  // confirm this matches your actual org/repo
 const SITE_URL     = 'https://velocityttrpg.github.io/velocity-ttrpg';  // no trailing slash
 
+// Cache-busting query param appended to every generated page's CSS/JS asset
+// links. One value per build run — so a run that touches nothing still
+// bumps it, but that's a cheap trade for never having to remember to bump
+// a version number by hand, and for guaranteeing every deploy invalidates
+// browser caches for style.css/report-modal.js/search.js/search-index.js.
+const ASSET_VERSION = String(Date.now());
+
 const SCRIPT_DIR   = __dirname;
 const PROJECT_ROOT = path.dirname(SCRIPT_DIR);
 
@@ -72,6 +79,76 @@ const BOOKS = [
     source:       path.join(SCRIPT_DIR, 'Site'),
     navExclude:   new Set(),
     outputAtRoot: true,
+  },
+  // ── Lost Realms of Anar ───────────────────────────────────────────────────
+  // Not yet linked from index.html — navigate directly via URL to preview.
+
+  {
+    id:           'anar-players-guide',
+    name:         "Anar: Player's Guide",
+    slug:         'anar-players-guide',
+    color:        '#7ec8a0',
+    source:       path.join(PROJECT_ROOT, "Lost Realms of Anar", "Player's Guide"),
+    navExclude:   new Set(),
+    chapterOrder: [
+      'Introduction',
+      'Your Character/Character Creation',
+      'Your Character/Lineages',
+      'Your Character/Flaws',
+      'Your Character/Attributes',
+      'Your Character/Skills',
+      'Your Character/Starting Equipment',
+      'Playing the Game/Opposition Checks',
+      'Playing the Game/Actions and Encounters',
+      'Playing the Game/Conditions',
+      'Playing the Game/Health, Dying, and Recovery',
+      'Playing the Game/Equipment',
+      'Playing the Game/Magic',
+      'Reference/Tables',
+      'Reference/Glossary',
+    ],
+  },
+
+  {
+    id:           'anar-narrators-guide',
+    name:         "Anar: Narrator's Guide",
+    slug:         'anar-narrators-guide',
+    color:        '#c8906e',
+    source:       path.join(PROJECT_ROOT, "Lost Realms of Anar", "Narrator's Guide"),
+    navExclude:   new Set(),
+    chapterOrder: [
+      'Introduction',
+      'Running Velocity/How to Direct',
+      'Running Velocity/Tone and Genre',
+      'Running Velocity/Session Zero',
+      'The World of Anar/History',
+      'The World of Anar/The Wild Ways',
+      'The World of Anar/Nations of Anar',
+      'The World of Anar/Factions and Organizations',
+      'The World of Anar/Religion and the Anyar Pantheon',
+      'The World of Anar/Magic',
+      'Building Your Campaign/Encounter Design and SP Budgets',
+      'Building Your Campaign/SP Awards',
+      'Building Your Campaign/Adventure Hooks and Campaign Frameworks',
+      'Building Your Campaign/Pacing and Scene Structure',
+      "Narrator's Tools/Notable NPCs",
+      "Narrator's Tools/Quick Reference",
+      "Narrator's Tools/Reference Tables",
+    ],
+  },
+
+  {
+    id:           'anar-creatures',
+    name:         'Creatures of Anar',
+    slug:         'anar-creatures',
+    color:        '#c86e7e',
+    source:       path.join(PROJECT_ROOT, 'Lost Realms of Anar', 'Creatures of Anar'),
+    navExclude:   new Set(),
+    chapterOrder: [
+      'Introduction',
+      // A–Z creature entries slot in here as files are created
+      'Porting d20 Monsters',
+    ],
   },
 ];
 
@@ -267,6 +344,11 @@ function classifyBlock(block) {
   if (/^\d+\.\s/.test(first))        return 'ol';
   if (first.startsWith('>'))         return 'blockquote';
   if (/^[-*_]{3,}\s*$/.test(first)) return 'hr';
+  // A block opening with a real HTML tag (e.g. a hand-authored <table> too
+  // complex for markdown pipe-table syntax — rowspan/colspan, etc.) is passed
+  // through verbatim rather than escaped as prose. Excludes list items, which
+  // markdown never starts with "<", so there's no ambiguity with the cases above.
+  if (/^<[a-zA-Z][a-zA-Z0-9-]*(\s|>|\/>)/.test(first)) return 'html';
   return 'paragraph';
 }
 
@@ -347,13 +429,17 @@ function renderListBlock(block, _isOl, paraId, bookName, chapterName) {
       const btn   = liId ? liBtn(liId) : '';
       const idAttr = liId ? ` id="${liId}"` : '';
 
-      // If the next item is more deeply indented, recurse for the child group
+      // Text and its report button share a flex row (`.li-row`) so the button is
+      // pinned to the right of the whole item and can never itself wrap onto its
+      // own line the way a plain inline element trailing the text could — that
+      // used to leave a stray near-blank line under long/wrapped list items.
+      // Nested child lists stay outside the row, as a normal block below it.
       if (pos < items.length && items[pos].indent > baseIndent) {
         const [childHtml, nextPos] = renderGroup(pos, items[pos].indent);
-        parts.push(`<li${idAttr}>${inlineMd(item.content)}${btn}${childHtml}</li>`);
+        parts.push(`<li${idAttr}><div class="li-row"><span class="li-text">${inlineMd(item.content)}</span>${btn}</div>${childHtml}</li>`);
         pos = nextPos;
       } else {
-        parts.push(`<li${idAttr}>${inlineMd(item.content)}${btn}</li>`);
+        parts.push(`<li${idAttr}><div class="li-row"><span class="li-text">${inlineMd(item.content)}</span>${btn}</div></li>`);
       }
     }
 
@@ -389,6 +475,9 @@ function blockToPlain(block, btype) {
       .map(c => plainText(c.replace('|', '')))
       .join(' ');
   }
+  if (btype === 'html') {
+    return block.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
   return plainText(block);
 }
 
@@ -422,6 +511,10 @@ function parseChapter(mdText, bookName, chapterName, paraPrefix) {
       case 'table':      inner = renderTable(block);             break;
       case 'ul':         inner = renderListBlock(block, false, paraId, bookName, chapterName);  break;
       case 'ol':         inner = renderListBlock(block, true,  paraId, bookName, chapterName);  break;
+      // Raw HTML, passed through as-is — no escaping, no inline-markdown
+      // processing. This is hand-authored markup the writer already intends
+      // as HTML (e.g. a <table> with rowspan/colspan pipe syntax can't express).
+      case 'html':       inner = block.trim();                    break;
       case 'blockquote': {
         // If the last line is an attribution (starts with an em/en dash or "--"),
         // render it as a separate, de-emphasized <cite> instead of folding it into
@@ -573,7 +666,7 @@ function readerPage(contentHtml, chapterName, bookName, bookColor, navHtml, page
   <link rel="icon" type="image/svg+xml" href="${root}favicon.svg">
   <link rel="icon" type="image/png" href="${root}favicon-32.png">
   <link rel="apple-touch-icon" href="${root}apple-touch-icon.png">
-  <link rel="stylesheet" href="${root}style.css">
+  <link rel="stylesheet" href="${root}style.css?v=${ASSET_VERSION}">
 </head>
 <body>
 
@@ -642,60 +735,10 @@ ${contentHtml}
 
 <script>
   window.GITHUB_REPO = ${repo};
-  var _reportCtx = {};
-
-  function openReportModal(paraId, book, chapter) {
-    var el = document.getElementById(paraId);
-    var paraText = el ? (el.querySelector('.para-body') || el).innerText.trim() : '';
-    _reportCtx = { paraId: paraId, book: book, chapter: chapter, paraText: paraText };
-    document.getElementById('report-modal-context').textContent = chapter + '  \u203a  ' + paraId;
-    document.getElementById('report-type').value = 'error';
-    document.getElementById('report-desc').value = '';
-    document.getElementById('report-modal').style.display = 'flex';
-    setTimeout(function(){ document.getElementById('report-desc').focus(); }, 50);
-  }
-
-  function closeReportModal() {
-    document.getElementById('report-modal').style.display = 'none';
-  }
-
-  function submitReportIssue() {
-    var ctx        = _reportCtx;
-    var type       = document.getElementById('report-type').value;
-    var desc       = document.getElementById('report-desc').value.trim();
-    var typeLabels = { error: 'bug', suggestion: 'enhancement', unclear: 'wording', missing: 'content' };
-    var typeNames  = { error: 'Error', suggestion: 'Suggestion', unclear: 'Unclear Wording', missing: 'Missing Content' };
-    var pageUrl    = window.location.href.split('#')[0] + '#' + ctx.paraId;
-    var title      = '[' + typeNames[type] + '] ' + ctx.chapter + ' \u2014 ' + ctx.paraId;
-    var body       =
-      '**Type:** '        + typeNames[type]                                                       + '\n' +
-      '**Book:** '        + ctx.book                                                              + '\n' +
-      '**Chapter:** '     + ctx.chapter                                                           + '\n' +
-      '**Paragraph:** '   + ctx.paraId                                                            + '\n' +
-      '**Page:** '        + pageUrl                                                               + '\n\n' +
-      '**Description:**\n' + (desc || '_(no description provided)_')                             +
-      '\n\n---\n**Referenced text:**\n> ' + (ctx.paraText || '_(unavailable)_').replace(/\n/g, '\n> ');
-    var labels = 'paragraph-issue,' + typeLabels[type];
-    var url = 'https://github.com/' + window.GITHUB_REPO + '/issues/new' +
-      '?title='  + encodeURIComponent(title)  +
-      '&body='   + encodeURIComponent(body)   +
-      '&labels=' + encodeURIComponent(labels);
-    var a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    closeReportModal();
-  }
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeReportModal();
-  });
 </script>
-<script src="${root}search-index.js"></script>
-<script src="${root}search.js"></script>
+<script src="${root}report-modal.js?v=${ASSET_VERSION}"></script>
+<script src="${root}search-index.js?v=${ASSET_VERSION}"></script>
+<script src="${root}search.js?v=${ASSET_VERSION}"></script>
 <script>
   VelocitySearch.init(
     document.getElementById('search-input'),
@@ -783,6 +826,54 @@ function collectChapters(sourceDir, navExclude, chapterOrder, files) {
 
   walk(sourceDir, []);
   return orderChapters(chapters, chapterOrder);
+}
+
+// ─── Hand-Maintained Static Pages ──────────────────────────────────────────────
+// index.html, legal.html, character-sheet.html, character-sheet-reference.html,
+// skill-trees.html, and d20.html are authored by hand, not generated from
+// markdown like everything else in BOOKS. Several of them still link to the
+// same shared style.css/search.js/search-index.js/report-modal.js assets that
+// generated reader pages do, so on every build we stamp those links with the
+// same ASSET_VERSION a generated page gets — a hand-edited page shouldn't have
+// worse cache-busting than a generated one, and nobody should have to
+// remember to bump a version number by hand.
+const HAND_MAINTAINED_PAGES = [
+  'index.html',
+  'legal.html',
+  'character-sheet.html',
+  'character-sheet-reference.html',
+  'skill-trees.html',
+  'd20.html',
+];
+
+// Finds href/src attributes pointing at any of the four shared assets
+// (optionally already carrying an old ?v=... from a previous build) and
+// rewrites them to the current ASSET_VERSION. No-op on pages that don't
+// reference these assets (e.g. the standalone tool pages).
+function versionAssetLinks(html) {
+  return html.replace(
+    /(href|src)="([^"]*?)(style\.css|report-modal\.js|search-index\.js|search\.js)(?:\?v=[^"]*)?"/g,
+    (_match, attr, prefix, asset) => `${attr}="${prefix}${asset}?v=${ASSET_VERSION}"`
+  );
+}
+
+function updateHandMaintainedPages() {
+  let touched = 0;
+  for (const name of HAND_MAINTAINED_PAGES) {
+    const filePath = path.join(SCRIPT_DIR, name);
+    if (!fs.existsSync(filePath)) continue;
+    const original = fs.readFileSync(filePath, 'utf8');
+    // Strip stray null bytes some earlier filesystem hiccup padded onto
+    // index.html with — harmless to browsers (they trail </html>) but
+    // needless bloat to keep carrying around in git.
+    const cleaned  = original.replace(/\0+/g, '');
+    const updated  = versionAssetLinks(cleaned);
+    if (updated !== original) {
+      fs.writeFileSync(filePath, updated, 'utf8');
+      touched++;
+    }
+  }
+  if (touched) console.log(`\n🔧  Updated asset versions in ${touched} hand-maintained page(s)`);
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
@@ -916,6 +1007,8 @@ function main() {
   fs.writeFileSync(path.join(SCRIPT_DIR, 'search-index.json'), JSON.stringify(allEntries, null, 2), 'utf8');
   fs.writeFileSync(path.join(SCRIPT_DIR, 'search-index.js'), 'window.SEARCH_INDEX = ' + JSON.stringify(allEntries) + ';', 'utf8');
 
+  updateHandMaintainedPages();
+
   // Write sitemap.xml — all generated pages + known hand-maintained root pages
   const STATIC_PAGES = [
     'index.html',
@@ -954,8 +1047,9 @@ function main() {
   console.log('    Next steps:');
   console.log('    1. Confirm GITHUB_REPO at the top of build.js matches your actual org/repo.');
   console.log('    2. Enable GitHub Pages (repo Settings → Pages → Source: GitHub Actions).');
-  console.log('    3. Push to GitHub — the deploy workflow builds and publishes automatically.');
+  console.log('    3. Push to GitHub — the deploy workflow builds and publishes automatically.')
   console.log();
 }
 
 main();
+

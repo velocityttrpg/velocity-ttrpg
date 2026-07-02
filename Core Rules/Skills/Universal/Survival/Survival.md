@@ -15,6 +15,7 @@ Survival covers the practical skills that keep characters alive and functional u
 
 1. [Athletics](Athletics.md)
 2. [Apothecary](Apothecary.md)
-3. [Stealth](Stealth.md)
-4. [Tracking](Tracking.md)
-5. [Wilderness](Wilderness.md)
+3. [Perception](Perception.md)
+4. [Stealth](Stealth.md)
+5. [Tracking](Tracking.md)
+6. [Wilderness](Wilderness.md)

@@ -26,7 +26,7 @@ Crowded. Shoulder to shoulder. The whole town has come, drawn by the spectacle o
 
 **Wax trace on the table** (Forensics, difficulty 11): A faint smear of sealing wax where the Truthstone sat. The same distinctive wax used to seal official VTC correspondence — identifiable if players later find VTC documents to compare it against.
 
-**Voss watching the players** (Situational Awareness, difficulty 13): He is paying more attention to their reactions than to the proceedings. A magistrate concerned with justice watches the accused. Voss watches the witnesses.
+**Voss watching the players** (Perception, difficulty 13): He is paying more attention to their reactions than to the proceedings. A magistrate concerned with justice watches the accused. Voss watches the witnesses.
 
 ## During the Recess
 

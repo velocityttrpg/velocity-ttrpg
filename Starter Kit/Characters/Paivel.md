@@ -17,7 +17,7 @@
 | Vitality | 25 |
 | Willpower | 0 |
 
-**Health:** 25 | **Dying threshold:** 13
+**Health:** 25 | **Wounded threshold:** 13 | **Dying threshold:** 7
 
 ---
 

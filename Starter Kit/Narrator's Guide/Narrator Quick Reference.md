@@ -107,19 +107,28 @@ Characters in this adventure wearing light armor (leather, mitigation 3) subtrac
 ## Health and Dying
 
 - **Base Vitality:** 25 (modified by the Vitality skill tree and lineage traits)
-- **Dying threshold:** Half of max Vitality, rounded up. At base Vitality 25, this is 13 Health.
+- **Wounded threshold:** Half of max Vitality, rounded up. At base Vitality 25, this is **13 Health**.
+- **Dying threshold:** One quarter of max Vitality, rounded up. At base Vitality 25, this is **7 Health**.
 - **Death:** Health reaches 0.
 
-When a character's Health drops to or below the dying threshold:
+When a character's Health drops to or below the **Wounded threshold**:
+
+- They enter the **Wounded** condition and begin Bleeding Out: 1 Health lost per round at end of their turn.
+- No OC penalty. No movement penalty. They can still act normally — they're hurt, not impaired.
+- Kith and Kin must make a Willpower OC (difficulty 20) at the start of each turn or enter blood rage.
+
+When Health drops further to or below the **Dying threshold**:
 
 - They enter the **Dying** condition: −2 on all Opposition Checks, movement reduced by 5 ft per AP.
-- They bleed out at 1 Health per round (at end of their turn).
+- They are still Bleeding Out (started at Wounded).
 - They must make a **Consciousness Check** (1d10 + Willpower vs. the damage that triggered it). Failure = unconscious.
 - They can still act if they pass the Consciousness Check.
 
+Stabilization ends Bleeding Out and Consciousness Checks but does not remove the Wounded or Dying conditions. Those end only when Health is healed above the relevant threshold.
+
 Going unconscious is not death — it is a story problem.
 
-[Core Rules reference: Dying — Dying State](Core%20Rules/Characters/Dying.md#dying-state)
+[Core Rules reference: Dying](Core%20Rules/Characters/Dying.md)
 
 ---
 

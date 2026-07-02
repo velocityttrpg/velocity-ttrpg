@@ -29,7 +29,7 @@ Kin have a natural affinity for magic that predates any formal training. This af
 Kin have no tradition of personal combat. −2 on melee and ranged attack Opposition Checks.
 
 ### Kithkin Blood
-While Health is below 50%, at the start of each turn the character must make a Willpower Opposition Check against difficulty 20. On failure, they enter a blood rage: all attacks suffer −4 but deal +1 weapon damage die on a hit. The rage persists until combat ends or they are healed above 50% Health. While raging, the character cannot distinguish friend from foe — they attack the nearest target regardless of allegiance.
+While Wounded (Health at or below their wounded threshold), at the start of each turn the character must make a Willpower Opposition Check against difficulty 20. On failure, they enter a blood rage: all attacks suffer −4 but deal +1 weapon damage die on a hit. The rage persists until combat ends or they are healed above their wounded threshold. While raging, the character cannot distinguish friend from foe — they attack the nearest target regardless of allegiance.
 
 ## Opposition Check Modifiers
 

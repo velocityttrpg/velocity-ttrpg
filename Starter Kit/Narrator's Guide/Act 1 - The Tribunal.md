@@ -8,7 +8,7 @@ Their testimony will not stop the trial. It will create enough doubt — and eno
 
 **Goal:** Buy time. Create doubt. Get out of the hall before the verdict is read.
 
-**Primary skills:** Persuasion, Intimidation, Negotiation, Investigation, Situational Awareness.
+**Primary skills:** Persuasion, Intimidation, Negotiation, Investigation, Perception.
 
 **Time pressure:** Establish the recess as finite. Two hours is the suggested window — long enough to investigate seriously, short enough to feel the urgency.
 
@@ -101,7 +101,7 @@ If players fail all testimony checks, the recess still happens — Voss calls fo
 Players who look around the tribunal hall during or after the testimony scene may notice:
 
 - The Truthstone's usual place on the advocate's table is empty. There is a ring of dust where it normally sits — it was removed recently. (Investigation, difficulty 7 — auto-succeed for any character with Investigation flat bonus of 7 or higher.)
-- Voss watches the players more carefully than the other magistrates do. A successful Situational Awareness check (difficulty 13) catches this.
+- Voss watches the players more carefully than the other magistrates do. A successful Perception check (difficulty 13) catches this.
 
 ### Approaching Fenn
 

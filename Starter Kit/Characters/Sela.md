@@ -16,7 +16,7 @@
 | Vitality | 25 |
 | Willpower | 2 |
 
-**Health:** 25 | **Dying threshold:** 13
+**Health:** 25 | **Wounded threshold:** 13 | **Dying threshold:** 7
 
 ---
 
@@ -32,8 +32,8 @@
 | Apothecary | III | +1 to Apothecary Opposition Checks |
 | Apothecary | IV | +1 to Apothecary Opposition Checks |
 | Apothecary | V | +1 to Apothecary Opposition Checks; unlocks Healer's Bag |
-| Investigation | I | Unlocks Forensics, Research, Supernatural Detection, Situational Awareness branches; +1 to all Investigation Opposition Checks |
-| Situational Awareness | I | +1 to Situational Awareness Opposition Checks |
+| Investigation | I | Unlocks Forensics, Research, Supernatural Detection branches; +1 to all Investigation Opposition Checks |
+| Perception | I | +1 to Perception Opposition Checks |
 
 ---
 
@@ -46,7 +46,7 @@
 
 **Unblooded** — Kin have no tradition of personal combat. −2 on melee and ranged attack Opposition Checks.
 
-**Kithkin Blood** — When Health drops to 12 or lower (below 50% of base Vitality 25), at the start of each turn make a Willpower Opposition Check against difficulty 20. On failure: all attacks suffer −4 but deal +1 weapon damage die on a hit; cannot distinguish friend from foe — attack the nearest target regardless of allegiance. Rage persists until combat ends or Health is restored to 13 or higher.
+**Kithkin Blood** — While Wounded (Health at 13 or lower), at the start of each turn make a Willpower Opposition Check against difficulty 20. On failure: all attacks suffer −4 but deal +1 weapon damage die on a hit; cannot distinguish friend from foe — attack the nearest target regardless of allegiance. Rage persists until combat ends or Health is restored above 13.
 
 ## Opposition Check Modifiers
 
@@ -70,7 +70,7 @@
 **Magic damage:** spell damage die + 2 (Magic Attack III)  
 **Apothecary:** 1d10 + 5 (Apothecary I–V); heals 1d6 + 2 per charge  
 **Research:** 1d10 + 2 (Kin OC modifier)  
-**Situational Awareness:** 1d10 + 2 (Investigation I +1, Situational Awareness I +1)  
+**Perception:** 1d10 + 1 (Perception I +1)  
 **Dodge:** 1d10 + 0
 
 ---
@@ -106,4 +106,4 @@ Sela's magic attack total of +6 makes her the party's most dangerous attacker ag
 
 Her Research OC modifier (+2) and Investigation I give her the best chance of anyone in the party to succeed on the research-based investigation checks in Act 2.
 
-**Kithkin Blood is a genuine danger.** At 12 Health or lower, she rolls 1d10 + 2 against difficulty 20 — she will almost certainly fail. Plan around it: keep her out of melee, let her cast from range, have someone ready to stabilize her if she goes down. If she enters blood rage she becomes a threat to allies. The player and Narrator should both watch her Health closely.
+**Kithkin Blood is a genuine danger.** Once she enters the Wounded condition (Health 13 or lower), she rolls 1d10 + 2 against difficulty 20 at the start of each turn — she will almost certainly fail. Note that she starts Bleeding Out the moment she's Wounded, losing 1 Health per round. Plan around it: keep her out of melee, let her cast from range, have someone ready to stabilize her if she goes down. If she enters blood rage she becomes a threat to allies. The player and Narrator should both watch her Health closely.

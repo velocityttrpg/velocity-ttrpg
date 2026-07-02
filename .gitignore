@@ -18,6 +18,12 @@ node_modules/
 # Internal AI session context
 CLAUDE.md
 
+# Not-yet-public content — lives outside this repo, mounted back in only
+# when actively being worked on. Ignored here as a safety net so it can
+# never be accidentally committed even if it's temporarily present.
+Lost Realms of Anar/
+Bulletproof/
+
 # OS noise
 .DS_Store
 Thumbs.db

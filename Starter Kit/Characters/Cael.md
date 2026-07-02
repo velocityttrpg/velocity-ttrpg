@@ -18,7 +18,7 @@
 
 † Includes +1 from Persuasion IV.
 
-**Health:** 25 | **Dying threshold:** 13
+**Health:** 25 | **Wounded threshold:** 13 | **Dying threshold:** 7
 
 ---
 
@@ -33,7 +33,7 @@
 | Persuasion | IV | +1 to Persuasion Opposition Checks; +1 Social |
 | Negotiation | I | +1 to Negotiation Opposition Checks |
 | Intimidation | I | +1 to Intimidation Opposition Checks |
-| Investigation | I | Unlocks Forensics, Research, Supernatural Detection, Situational Awareness branches; +1 to all Investigation Opposition Checks |
+| Investigation | I | Unlocks Forensics, Research, Supernatural Detection branches; +1 to all Investigation Opposition Checks |
 | Melee Attack | I | May use light melee weapons without penalty |
 | Melee Attack | II | +2 to melee attack rolls with light weapons |
 | Melee Attack | III | +2 to melee damage rolls with light weapons |

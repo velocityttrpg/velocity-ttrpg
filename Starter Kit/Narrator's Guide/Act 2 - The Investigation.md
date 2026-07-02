@@ -6,7 +6,7 @@ The players have two hours and two urgent threads: find the Truthstone, find the
 
 **Goal:** Uncover enough evidence to expose Voss, locate Liriel, and act before the tribunal reconvenes.
 
-**Primary skills:** Investigation, Forensics, Research, Tracking, Situational Awareness, Persuasion, Intimidation, Negotiation.
+**Primary skills:** Investigation, Forensics, Research, Tracking, Perception, Persuasion, Intimidation, Negotiation.
 
 **Ticking clock:** The recess runs two hours. The contract signing is scheduled to follow immediately after — Voss intends to walk from the tribunal to the Counting House the moment the verdict is read. Both the verdict and the signing are the same deadline: the moment Voss has what he came for and can leave Dunmore. The Narrator should introduce at least one reminder that time is moving — a player who passes the Counting House Inn sees the delegation's robes through a window, or a merchant mentions that the bankers have been asking for Voss.
 
@@ -114,6 +114,6 @@ This doesn't mean every townsperson is hostile. It means they're reluctant, and 
 
 **Don't hide the clock.** Remind players periodically that time is passing. A bell tower that strikes the hour. A townsperson who mentions "the verdict's due soon." Voss passing through the square on his way somewhere he won't explain.
 
-**Voss's behavior during Act 2.** He is composed and helpful if approached again. He will not slip unless a player is specifically watching for inconsistencies and succeeds on the Situational Awareness check (difficulty 14). He does not visit the Counting House while players might observe him — he's too careful for that. But someone may see one of his guards delivering a sealed message to the Belar delegation's inn.
+**Voss's behavior during Act 2.** He is composed and helpful if approached again. He will not slip unless a player is specifically watching for inconsistencies and succeeds on the Perception check (difficulty 14). He does not visit the Counting House while players might observe him — he's too careful for that. But someone may see one of his guards delivering a sealed message to the Belar delegation's inn.
 
 **If players stall or spend the recess on a dead end.** The Narrator does not need to wait for the players to find the right thread. If time is running out and players are stuck, the Belar delegation can arrive at the tribunal hall on their own initiative — a banking delegation witnessing a contract has a professional interest in verifying the parties are in good standing. Their arrival prompts Voss to act, which prompts the confrontation. The players may not have found all the evidence, but Act 3 can still begin. What they found (or didn't find) shapes how much ammunition they have when they get there.

@@ -51,7 +51,7 @@ Some hazardous environments are not merely toxic — they are flammable. Methane
 
 **Before ignition**, a flammable gas pocket behaves as a Severe or Lethal toxic atmosphere (breathlessness, disorientation, headache). Characters may not realize the air is flammable rather than merely bad without relevant knowledge or a successful check.
 
-**Detection.** The Narrator may offer environmental cues before or as the party enters: torchlight that gutters, dims, or turns bluish; a faint sulfur or rotten-egg smell; a dead animal near the tunnel entrance; an unusual stillness in the air. A successful Situational Awareness or Wilderness check allows a character to notice and identify one such cue. Characters with mining experience or relevant background may recognize the danger immediately at the Narrator's discretion.
+**Detection.** The Narrator may offer environmental cues before or as the party enters: torchlight that gutters, dims, or turns bluish; a faint sulfur or rotten-egg smell; a dead animal near the tunnel entrance; an unusual stillness in the air. A successful Perception or Wilderness check allows a character to notice and identify one such cue. Characters with mining experience or relevant background may recognize the danger immediately at the Narrator's discretion.
 
 **Ignition** occurs the moment an open flame — a torch, a lantern, a fire-based spell, a spark from struck steel — enters a flammable gas pocket. No roll is made. The gas ignites.
 

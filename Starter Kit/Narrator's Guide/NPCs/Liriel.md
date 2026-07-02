@@ -4,7 +4,7 @@
 ## Stat Block
 
 **Lineage:** Faerie  
-**Vitality:** 25 | **Health:** 25 (weakened — treat as 15 when found) | **Dying threshold:** 13
+**Vitality:** 25 | **Health:** 25 (weakened — treat as 15 when found) | **Wounded threshold:** 13 | **Dying threshold:** 7
 
 Liriel is unarmed and cannot fight. She has no relevant combat skills.
 

@@ -21,7 +21,7 @@ Apothecary is the trained ability to keep people alive under adverse conditions.
 
 **Cost:** 1 SP  
 **Prerequisite:** None  
-**Effect:** +1 to Apothecary Opposition Checks. The character can apply a tourniquet to a dying character outside combat, halting bleed-out without stabilizing them. The character remains dying and unconscious but no longer loses Health from bleeding.
+**Effect:** +1 to Apothecary Opposition Checks. The character can apply a tourniquet to a Wounded or Dying character outside combat, halting Bleeding Out without fully stabilizing them. The character remains Wounded or Dying but no longer loses Health from bleeding.
 
 ### Apothecary II
 

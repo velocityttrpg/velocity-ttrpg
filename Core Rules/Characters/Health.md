@@ -29,4 +29,6 @@
 
 1. Thresholds are checked immediately when Health is reduced; a character enters the appropriate state as soon as their Health meets or falls below a threshold.
 2. A character dies instantly when their Health reaches 0 — see [Death](Death.md).
-3. For the Dying condition, Consciousness Checks, and bleeding out, see [Dying](Dying.md).
+3. **Wounded threshold:** half of maximum Vitality, rounded up. A character at or below this value enters the Wounded condition and begins Bleeding Out.
+4. **Dying threshold:** one quarter of maximum Vitality, rounded up. A character at or below this value enters the Dying condition: −2 on all Opposition Checks, movement reduced by 5 ft, Consciousness Checks on incoming damage.
+5. For full rules on both conditions, Consciousness Checks, and Bleeding Out, see [Dying](Dying.md). For threshold values at each Vitality total, see [Health Thresholds by Vitality Table](../Tables/Health%20Thresholds%20by%20Vitality%20Table.md).

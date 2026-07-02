@@ -3,7 +3,7 @@
 
 ## Stat Block
 
-**Vitality:** 25 | **Health:** 25 | **Dying threshold:** 13
+**Vitality:** 25 | **Health:** 25 | **Wounded threshold:** 13 | **Dying threshold:** 7
 
 | Attribute | Score |
 |-----------|------:|
@@ -41,4 +41,4 @@ Measured, helpful, never defensive. He will point players toward a real lead —
 
 ## The Tell
 
-He knows too much about what Reth said in the tavern. If players press him on specifics he shouldn't know, his composure fractures briefly before reasserting. A successful Investigation or Situational Awareness check (difficulty 14) catches it.
+He knows too much about what Reth said in the tavern. If players press him on specifics he shouldn't know, his composure fractures briefly before reasserting. A successful Investigation or Perception check (difficulty 14) catches it.

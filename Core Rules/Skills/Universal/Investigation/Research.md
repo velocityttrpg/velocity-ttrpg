@@ -6,7 +6,7 @@
 
 ## Description
 
-Research is the disciplined pursuit of information through records, archives, databases, libraries, and any other repository of accumulated knowledge. A research-trained character knows not just how to look things up, but where to look, how to cross-reference, and how to recognize when a trail has gone cold versus when it's just hidden. At mastery, they find what others have concluded doesn't exist.
+Research is the disciplined pursuit of information through records, archives, libraries, and any other repository of accumulated knowledge. A research-trained character knows not just how to look things up, but where to look, how to cross-reference, and how to recognize when a trail has gone cold versus when it's just hidden. At mastery, they find what others have concluded doesn't exist.
 
 ## Training Tier
 

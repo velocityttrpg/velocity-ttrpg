@@ -6,7 +6,7 @@
 
 ## Description
 
-Forensics is the discipline of reading physical evidence — crime scenes, bodies, residue, and wreckage — to reconstruct what happened and who was responsible. A forensics-trained character doesn't just observe a scene; they interrogate it. At mastery, they can walk into a room and read its history from the marks left behind.
+Forensics is the discipline of reading physical evidence — bodies, wreckage, and the marks left by violence — to reconstruct what happened and who was responsible. A forensics-trained character doesn't just observe a scene; they interrogate it. At mastery, they can walk into a room and read its history from the marks left behind.
 
 ## Training Tier
 

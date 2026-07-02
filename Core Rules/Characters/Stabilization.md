@@ -2,23 +2,23 @@
 
 ## Stabilization
 
-1. A dying character can be stabilized by a healer.
-2. Stabilization ends the Dying condition and the Bleeding Out condition. It does not restore Health.
+1. A Wounded or Dying character can be stabilized by a healer.
+2. Stabilization ends Bleeding Out. It does not restore Health and does not remove the Wounded or Dying conditions — those end only when Health is restored above the relevant threshold.
 
 ## Effects of Stabilization
 
-1. A stabilized character is no longer Dying or Bleeding Out.
-2. A stabilized character no longer makes Consciousness Checks — Consciousness Checks are a sub-effect of the Dying condition, which has ended.
+1. A stabilized character is no longer Bleeding Out.
+2. A stabilized character no longer makes Consciousness Checks — Consciousness Checks are a consequence of the Dying condition, which requires active Bleeding Out to continue triggering.
 3. Stabilization does not remove the Incapacitated condition. A stabilized character remains Incapacitated: they may speak, crawl, gesture, and take other very simple actions, but cannot attack, cast spells, concentrate, or do anything else strenuous.
-4. Stabilization does not remove the Unconscious condition. A stabilized character remains unconscious until a healer removes that condition separately. Being stabilized, being Incapacitated, and being unconscious are independent of one another — stabilization addresses only the Dying condition and its Bleeding Out sub-effect.
+4. Stabilization does not remove the Unconscious condition. A stabilized character remains unconscious until a healer removes that condition separately. Being stabilized, being Incapacitated, and being unconscious are independent of one another — stabilization addresses only Bleeding Out.
 
 ## Requirements for stabilization
 
 1. A healer must spend an action to attempt stabilization.
-2. The healer must be adjacent to the dying character.
+2. The healer must be adjacent to the Wounded or Dying character.
 3. **Apothecary Opposition Check.** 
 	1. Target difficulty is based on the following:
-		1. The patient's dying threshold
+		1. The patient's wounded threshold
 		2. Minus the patient's current health
 		3. Plus a situational modifier:
 			1. No modifier if the attempt is made outside of combat
@@ -52,5 +52,4 @@
 1. The Unconscious condition is removed — the character regains consciousness immediately.
 2. All other conditions present at the time of awakening remain in effect. A character who was Dying and Bleeding Out continues to be Dying and Bleeding Out.
 3. The character is Prone.
-4. The character is Hindered until they receive medical treatment or the scene ends.
-5. The character is Vulnerable until they receive medical treatment or the scene ends.
+4. The character is Hindered until they r

@@ -19,7 +19,7 @@
 † Includes +1 from Defense I.  
 ‡ Includes +20 from Immortal Vitality.
 
-**Health:** 45 | **Dying threshold:** 23
+**Health:** 45 | **Wounded threshold:** 23 | **Dying threshold:** 12
 
 ---
 

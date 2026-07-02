@@ -43,10 +43,12 @@
 Armor mitigates damage from physical attacks only.
 
 **Mitigated:**
+
 1. Mundane weapons — slashing, piercing, and bludgeoning damage from non-magical weapons.
 2. Natural attacks — claws, teeth, unarmed strikes, and similar physical attacks from any creature.
 
 **Not mitigated (armor provides no benefit against):**
+
 1. Magic weapons — weapons with magical properties or enhancements bypass armor entirely, regardless of damage type.
 2. Spells — all magical effects bypass armor.
 3. Magical creature abilities — breath weapons, supernatural attacks, and similar abilities bypass armor.

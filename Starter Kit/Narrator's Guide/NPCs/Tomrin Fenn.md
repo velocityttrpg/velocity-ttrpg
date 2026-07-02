@@ -5,7 +5,7 @@
 
 Fenn is not a combatant and will not fight under any circumstances.
 
-**Vitality:** 25 | **Health:** 25 | **Dying threshold:** 13
+**Vitality:** 25 | **Health:** 25 | **Wounded threshold:** 13 | **Dying threshold:** 7
 
 | Attribute | Score |
 |-----------|------:|

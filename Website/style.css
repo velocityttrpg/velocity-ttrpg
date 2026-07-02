@@ -26,7 +26,8 @@
   --topbar-h:     52px;
   --dev-banner-h: 40px;
   --sidebar-w:    340px;
-  --reader-max:   720px;
+  --reader-min:   480px;
+  --reader-max:   900px;
 }
 
 /* ─── Reset ───────────────────────────────────────────────────────────────── */
@@ -336,8 +337,16 @@ details.nav-accordion details.nav-accordion details.nav-accordion > a {
   margin-top: calc(var(--dev-banner-h) + var(--topbar-h));
   margin-left: var(--sidebar-w);
   padding: 48px 64px 80px;
-  max-width: calc(var(--sidebar-w) + var(--reader-max) + 128px);
-  width: 100%;
+  /* Fluidly track the space left over once the fixed sidebar is subtracted
+     from the viewport, clamped between --reader-min and --reader-max so the
+     text column never gets uncomfortably narrow or unreasonably wide.
+     128px = the 64px left/right padding above, included so --reader-min/max
+     describe the actual text measure rather than the full padded box. */
+  width: clamp(
+    calc(var(--reader-min) + 128px),
+    calc(100vw - var(--sidebar-w)),
+    calc(var(--reader-max) + 128px)
+  );
 }
 
 .chapter-title {
@@ -505,13 +514,28 @@ details.nav-accordion details.nav-accordion details.nav-accordion > a {
   background: rgba(255, 127, 127, 0.06);
 }
 
-/* Per-list-item buttons */
+/* Per-list-item buttons.
+   .li-row is a flex row wrapping the item's text and its report button, so the
+   button is pinned to the right of the item as a whole — it can't wrap onto
+   its own line the way a plain inline element trailing the text could (that
+   used to leave a stray near-blank line under long/wrapped list items). */
+.li-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.li-text {
+  flex: 1;
+  min-width: 0;
+}
+
 .li-report-btn {
-  display: inline;
-  margin-left: 8px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 2px;
   opacity: 0;
   font-size: 0.72em;
-  vertical-align: middle;
   background: none;
   border: 1px solid var(--border-dim);
   border-radius: 3px;
@@ -523,7 +547,7 @@ details.nav-accordion details.nav-accordion details.nav-accordion > a {
   transition: opacity 0.15s, color 0.15s, border-color 0.15s;
 }
 
-#reader-content li:hover > .li-report-btn {
+.li-row:hover > .li-report-btn {
   opacity: 1;
 }
 
@@ -791,6 +815,10 @@ mark {
   #reader-content {
     margin-left: 0;
     padding: 32px 20px 60px;
+    /* Sidebar is hidden and margin-left is zeroed above, so the desktop
+       clamp() (which subtracts --sidebar-w) no longer applies — just fill
+       the viewport. */
+    width: 100%;
   }
 
   .reader-search-results {

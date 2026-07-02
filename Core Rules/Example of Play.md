@@ -228,13 +228,13 @@ Voss has his hands up. Then the back door splinters inward. Two enforcers — bi
 
 **Cael's player:** Parry. 1d10 plus nothing. *(rolls)* Three.
 
-**Narrator:** You take 10.
+**Narrator:** You take 16.
 
-*(Cael entered this scene with 21 Health. 21 − 10 = 11 — below his dying threshold of 13. He enters the Dying condition.)*
+*(Cael entered this scene with 21 Health. 21 − 16 = 5 — below both his Wounded threshold (13) and his Dying threshold (7). He crosses both thresholds simultaneously, entering Wounded and then Dying in the same moment.)*
 
-**Cael's player:** That puts me at 11. I'm Dying.
+**Cael's player:** That puts me at 5. I'm Dying.
 
-**Narrator:** You're Dying — bleeding out, minus 2 on everything. You can still act, but make a Consciousness Check first. 1d10 plus Willpower, against the damage that hit you. That's a 10.
+**Narrator:** You're Dying — bleeding out, minus 2 on everything. You can still act, but make a Consciousness Check first. 1d10 plus Willpower, against the damage that hit you. That's a 16.
 
 **Cael's player:** Willpower zero. *(rolls)* Six.
 
@@ -286,11 +286,13 @@ Sela wipes the corner of her mouth — a thin line of blood, the price of castin
 
 **Untrained weapon use shows up in the fiction first.** The −4 penalty on Cael's axe attack meant the enforcer stepped around it like it was nothing. The number didn't just reduce Cael's total — it explained why the story went that way. When the mechanics fit the fiction this cleanly, no one has to explain why something happened.
 
-**Dying is not the end of your turn.** When Cael hit his dying threshold, he entered the Dying condition — −2 on all Opposition Checks, movement reduced by 5 ft, bleeding out every round. He could still act. The Consciousness Check determined whether he stayed conscious enough to do so. If he'd rolled a 10 or higher, he would have been back on his feet — wounded, impaired, dangerous. The bottom half of your Health bar is a last-stand zone, not a waiting room.
+**Health has two danger zones.** When Cael's Health fell below 13 (his Wounded threshold — half of Vitality 25, rounded up), he entered the Wounded condition and started Bleeding Out: 1 Health per round at the end of his turn. When his Health fell below 7 (his Dying threshold — one quarter of Vitality 25, rounded up), he entered the Dying condition on top of that: −2 on all Opposition Checks, movement reduced by 5 ft, Consciousness Checks on every hit. He crossed both thresholds in the same blow, so both conditions applied at once.
+
+**Dying is not the end of your turn.** Even in the Dying condition, Cael could still act. The Consciousness Check determined whether he stayed conscious enough to do so. If he'd rolled a 16 or higher, he would have been back on his feet — Wounded, impaired, bleeding, but fighting. The bottom quarter of your Health bar is a last-stand zone, not a waiting room.
 
 **Going unconscious is a story problem, not an elimination.** Cael failed his Consciousness Check, so he went down. That didn't end his role in the scene — it changed what every other character had to respond to. Mira is fighting under pressure. Sela has a reason to act. An unconscious character is a hook, not a removed piece.
 
-**The Consciousness Check is against the damage that triggered it.** Cael rolled 1d10 + Willpower (0) against 10 — the amount of damage that dropped him past his dying threshold. A character with meaningful Willpower investment, or Magic Attack V's trained resilience, would have had a better chance of staying on their feet.
+**The Consciousness Check is against the damage that triggered it.** Cael rolled 1d10 + Willpower (0) against 16 — the amount of damage that dropped him into the Dying condition. A character with meaningful Willpower investment, or Magic Attack V's trained resilience, would have had a better chance of staying on their feet.
 
 **Casting costs Health — visibly.** Sela paid 2 Health to cast a 2nd-level force bolt. Not a slot, not a point in a mana bar. Health. The blood on her lip was the cost of that casting, legible to everyone in the room. Magic hurts the person using it. That's always true, always present, and never reduced by skill investment.
 
